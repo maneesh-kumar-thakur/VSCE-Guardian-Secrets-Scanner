@@ -70,6 +70,31 @@ export class DashboardProvider {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Guardian Security Dashboard</title>
   <style>
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes pulseGlow {
+      0%, 100% {
+        box-shadow: 0 0 0 0 rgba(244, 67, 54, 0.3);
+      }
+      50% {
+        box-shadow: 0 0 0 8px rgba(244, 67, 54, 0);
+      }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
     * {
       margin: 0;
       padding: 0;
@@ -81,30 +106,39 @@ export class DashboardProvider {
       padding: 20px;
       background: var(--vscode-editor-background);
       color: var(--vscode-editor-foreground);
+      animation: fadeIn 0.3s ease-in;
     }
 
     .header {
       margin-bottom: 30px;
-      padding-bottom: 20px;
-      border-bottom: 2px solid var(--vscode-panel-border);
+      padding: 20px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, rgba(244, 67, 54, 0.1) 0%, rgba(255, 152, 0, 0.05) 100%);
+      border: 1px solid rgba(244, 67, 54, 0.2);
     }
 
     h1 {
-      font-size: 28px;
-      font-weight: 600;
+      font-size: 32px;
+      font-weight: 700;
       margin-bottom: 10px;
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 12px;
+      background: linear-gradient(135deg, #ff6b6b 0%, #ff9800 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
 
     .shield-icon {
-      font-size: 32px;
+      font-size: 36px;
+      filter: drop-shadow(0 2px 4px rgba(244, 67, 54, 0.3));
     }
 
     .subtitle {
       color: var(--vscode-descriptionForeground);
       font-size: 14px;
+      font-weight: 500;
     }
 
     .stats-grid {
@@ -115,171 +149,279 @@ export class DashboardProvider {
     }
 
     .stat-card {
-      background: var(--vscode-editor-inactiveSelectionBackground);
-      border: 1px solid var(--vscode-panel-border);
-      border-radius: 8px;
-      padding: 20px;
-      transition: transform 0.2s, box-shadow 0.2s;
+      background: linear-gradient(135deg, var(--vscode-editor-inactiveSelectionBackground) 0%, rgba(255, 255, 255, 0.02) 100%);
+      border: 2px solid var(--vscode-panel-border);
+      border-radius: 12px;
+      padding: 24px;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      animation: slideIn 0.4s ease-out;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .stat-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: currentColor;
     }
 
     .stat-card:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      transform: translateY(-6px);
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.4);
+      border-color: currentColor;
     }
 
     .stat-card.critical {
-      border-left: 4px solid #f44336;
+      border-left: 6px solid #f44336;
+      color: #f44336;
+    }
+
+    .stat-card.critical:hover {
+      animation: pulseGlow 1s infinite;
     }
 
     .stat-card.high {
-      border-left: 4px solid #ff9800;
+      border-left: 6px solid #ff9800;
+      color: #ff9800;
     }
 
     .stat-card.medium {
-      border-left: 4px solid #ffeb3b;
+      border-left: 6px solid #ffeb3b;
+      color: #fbc02d;
     }
 
     .stat-card.low {
-      border-left: 4px solid #2196f3;
+      border-left: 6px solid #2196f3;
+      color: #2196f3;
     }
 
     .stat-value {
-      font-size: 36px;
-      font-weight: 700;
-      margin-bottom: 5px;
+      font-size: 48px;
+      font-weight: 800;
+      margin-bottom: 8px;
+      background: linear-gradient(135deg, currentColor 0%, rgba(255, 159, 64, 0.7) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
 
     .stat-label {
-      font-size: 14px;
+      font-size: 13px;
       color: var(--vscode-descriptionForeground);
       text-transform: uppercase;
-      letter-spacing: 0.5px;
+      letter-spacing: 1.2px;
+      font-weight: 700;
     }
 
     .category-section {
-      margin-bottom: 30px;
+      margin-bottom: 40px;
+      animation: slideIn 0.5s ease-out;
     }
 
     .section-title {
-      font-size: 20px;
-      font-weight: 600;
-      margin-bottom: 15px;
-      padding-bottom: 10px;
-      border-bottom: 1px solid var(--vscode-panel-border);
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 18px;
+      padding-bottom: 12px;
+      border-bottom: 3px solid;
+      border-image: linear-gradient(90deg, #ff6b6b, #ff9800) 1;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: linear-gradient(90deg, rgba(255, 107, 107, 0.05), rgba(255, 152, 0, 0.02));
+      padding-left: 12px;
+      border-radius: 4px;
     }
 
     .category-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-      gap: 15px;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 16px;
     }
 
     .category-card {
-      background: var(--vscode-editor-inactiveSelectionBackground);
-      border: 1px solid var(--vscode-panel-border);
-      border-radius: 6px;
-      padding: 15px;
+      background: linear-gradient(135deg, var(--vscode-editor-inactiveSelectionBackground) 0%, rgba(255, 255, 255, 0.01) 100%);
+      border: 1.5px solid var(--vscode-panel-border);
+      border-radius: 10px;
+      padding: 18px;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .category-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, #ff6b6b, #ff9800);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.3s ease;
+    }
+
+    .category-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 20px rgba(255, 107, 107, 0.15);
+      border-color: rgba(255, 107, 107, 0.5);
+    }
+
+    .category-card:hover::after {
+      transform: scaleX(1);
     }
 
     .category-name {
-      font-weight: 600;
-      margin-bottom: 8px;
+      font-weight: 700;
+      margin-bottom: 10px;
       font-size: 15px;
+      color: var(--vscode-editor-foreground);
     }
 
     .category-count {
       color: var(--vscode-descriptionForeground);
       font-size: 13px;
+      font-weight: 500;
     }
 
     .severity-badge {
       display: inline-block;
-      padding: 2px 8px;
-      border-radius: 3px;
+      padding: 4px 10px;
+      border-radius: 6px;
       font-size: 11px;
-      font-weight: 600;
-      margin-left: 5px;
+      font-weight: 800;
+      margin-left: 8px;
       text-transform: uppercase;
+      letter-spacing: 0.5px;
+      font-weight: 700;
     }
 
     .severity-badge.critical {
-      background: #f44336;
+      background: linear-gradient(135deg, #f44336 0%, #e53935 100%);
       color: white;
+      box-shadow: 0 2px 8px rgba(244, 67, 54, 0.4);
     }
 
     .severity-badge.high {
-      background: #ff9800;
+      background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%);
       color: white;
+      box-shadow: 0 2px 8px rgba(255, 152, 0, 0.4);
     }
 
     .severity-badge.medium {
-      background: #ffeb3b;
-      color: black;
+      background: linear-gradient(135deg, #ffeb3b 0%, #fbc02d 100%);
+      color: #333;
+      box-shadow: 0 2px 8px rgba(251, 192, 45, 0.4);
     }
 
     .severity-badge.low {
-      background: #2196f3;
+      background: linear-gradient(135deg, #2196f3 0%, #1976d2 100%);
       color: white;
+      box-shadow: 0 2px 8px rgba(33, 150, 243, 0.4);
     }
 
     .recommendations {
-      background: var(--vscode-textBlockQuote-background);
-      border-left: 4px solid var(--vscode-textLink-foreground);
-      padding: 15px;
-      margin-top: 20px;
-      border-radius: 4px;
+      background: linear-gradient(135deg, rgba(76, 175, 80, 0.1) 0%, rgba(33, 150, 243, 0.05) 100%);
+      border: 2px solid rgba(76, 175, 80, 0.3);
+      border-left: 6px solid #4caf50;
+      padding: 25px;
+      margin-top: 30px;
+      border-radius: 12px;
+      animation: slideIn 0.6s ease-out;
     }
 
     .recommendations h3 {
-      margin-bottom: 10px;
-      font-size: 16px;
+      margin-bottom: 15px;
+      font-size: 18px;
+      font-weight: 700;
+      color: #4caf50;
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
 
     .recommendations ul {
       list-style-position: inside;
-      line-height: 1.8;
+      line-height: 2;
+      padding-left: 10px;
     }
 
     .recommendations li {
-      margin-bottom: 5px;
+      margin-bottom: 10px;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--vscode-editor-foreground);
+      transition: all 0.2s;
     }
+
+    .recommendations li:hover {
+      padding-left: 8px;
+      color: #4caf50;
+    }
+
+    .recommendations li::marker {
+      color: #4caf50;
+      font-weight: 700;
+    }
+
 
     .chart-container {
       margin-top: 30px;
       padding: 20px;
-      background: var(--vscode-editor-inactiveSelectionBackground);
-      border: 1px solid var(--vscode-panel-border);
-      border-radius: 8px;
+      background: linear-gradient(135deg, rgba(76, 175, 80, 0.05) 0%, rgba(33, 150, 243, 0.02) 100%);
+      border: 1.5px solid rgba(76, 175, 80, 0.2);
+      border-radius: 12px;
     }
 
     .progress-bar {
-      height: 8px;
+      height: 12px;
       background: var(--vscode-progressBar-background);
-      border-radius: 4px;
+      border-radius: 6px;
       margin-top: 10px;
       overflow: hidden;
+      box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
     }
 
     .progress-fill {
       height: 100%;
-      background: var(--vscode-button-background);
-      transition: width 0.3s ease;
+      background: linear-gradient(90deg, #4caf50, #45a049);
+      transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 0 10px rgba(76, 175, 80, 0.5);
     }
 
     .no-findings {
       text-align: center;
-      padding: 60px 20px;
+      padding: 80px 20px;
+      animation: slideIn 0.4s ease-out;
     }
 
     .no-findings-icon {
-      font-size: 64px;
-      margin-bottom: 20px;
+      font-size: 80px;
+      margin-bottom: 25px;
+      animation: pulseGlow 2s infinite;
     }
 
     .no-findings-text {
-      font-size: 24px;
-      font-weight: 600;
-      color: #4caf50;
+      font-size: 28px;
+      font-weight: 800;
+      background: linear-gradient(135deg, #4caf50, #45a049);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 15px;
+    }
+
+    .no-findings-subtitle {
+      font-size: 16px;
+      color: var(--vscode-descriptionForeground);
+      font-weight: 500;
+      margin-top: 10px;
+      line-height: 1.6;
     }
   </style>
 </head>
@@ -301,10 +443,11 @@ export class DashboardProvider {
   private _getNoFindingsHtml(): string {
     return `
       <div class="no-findings">
-        <div class="no-findings-icon">✅</div>
-        <div class="no-findings-text">No Security Issues Detected</div>
-        <p style="margin-top: 10px; color: var(--vscode-descriptionForeground);">
-          Your workspace is clean! No passwords, API keys, or tokens were found.
+        <div class="no-findings-icon">✨</div>
+        <div class="no-findings-text">100% Secure</div>
+        <p class="no-findings-subtitle">
+          No secrets, API keys, or credentials detected.<br/>
+          <strong>Your workspace is clean and ready to go!</strong>
         </p>
       </div>
     `;
@@ -395,27 +538,27 @@ export class DashboardProvider {
 
     if (stats.critical > 0) {
       recommendations.push(
-        'Immediately rotate all critical credentials (AWS keys, private keys, database passwords)',
-        'Review access logs for potential unauthorized access'
+        '🚨 <strong>Immediately rotate all critical credentials</strong> (AWS keys, private keys, database passwords)',
+        '🔍 Review access logs for potential unauthorized access'
       );
     }
 
     if (stats.high > 0) {
       recommendations.push(
-        'Review and rotate API keys and tokens marked as high severity',
-        'Implement .gitignore rules to prevent future commits'
+        '🔑 Review and rotate API keys and tokens marked as high severity',
+        '📝 Implement .gitignore rules to prevent future commits'
       );
     }
 
     recommendations.push(
-      'Use environment variables or secret management tools (e.g., AWS Secrets Manager, HashiCorp Vault)',
-      'Enable pre-commit hooks to scan for secrets before committing',
-      'Review repository history and consider using tools like git-filter-repo to remove secrets'
+      '🛡️ Use environment variables or secret management tools (AWS Secrets Manager, HashiCorp Vault)',
+      '🪝 Enable pre-commit hooks to scan for secrets before committing',
+      '🧹 Review repository history and remove secrets using tools like git-filter-repo'
     );
 
     return `
       <div class="recommendations">
-        <h3>🔒 Security Recommendations</h3>
+        <h3>🔒 Security Action Items</h3>
         <ul>
           ${recommendations.map(rec => `<li>${rec}</li>`).join('')}
         </ul>

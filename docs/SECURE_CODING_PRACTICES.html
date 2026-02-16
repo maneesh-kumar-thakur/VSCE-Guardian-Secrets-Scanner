@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🔐 Secure Coding & Privacy Best Practices - Guardian Secrets Scanner</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+      line-height: 1.6;
+      color: #333;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      overflow: hidden;
+    }
+
+    header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 60px 40px;
+      text-align: center;
+    }
+
+    header h1 {
+      font-size: 48px;
+      margin-bottom: 10px;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    header p {
+      font-size: 18px;
+      opacity: 0.95;
+    }
+
+    .toc {
+      background: #f5f5f5;
+      padding: 40px;
+      border-bottom: 2px solid #e0e0e0;
+    }
+
+    .toc h2 {
+      margin-bottom: 25px;
+      color: #667eea;
+      font-size: 24px;
+    }
+
+    .toc-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 15px;
+    }
+
+    .toc-list a {
+      display: block;
+      padding: 12px 16px;
+      background: white;
+      border-left: 4px solid #667eea;
+      color: #333;
+      text-decoration: none;
+      border-radius: 4px;
+      transition: all 0.3s;
+      font-weight: 500;
+    }
+
+    .toc-list a:hover {
+      background: #667eea;
+      color: white;
+      transform: translateX(4px);
+    }
+
+    main {
+      padding: 40px;
+    }
+
+    section {
+      margin-bottom: 50px;
+      scroll-margin-top: 80px;
+    }
+
+    h2 {
+      font-size: 32px;
+      color: #667eea;
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 3px solid #667eea;
+    }
+
+    h3 {
+      font-size: 22px;
+      color: #764ba2;
+      margin: 25px 0 15px 0;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    h4 {
+      font-size: 16px;
+      color: #555;
+      margin: 15px 0 10px 0;
+      font-weight: 600;
+    }
+
+    p {
+      margin-bottom: 15px;
+      line-height: 1.8;
+    }
+
+    code {
+      background: #f5f5f5;
+      padding: 2px 6px;
+      border-radius: 3px;
+      font-family: 'Monaco', 'Courier New', monospace;
+      font-size: 14px;
+    }
+
+    pre {
+      background: #2d2d2d;
+      color: #f8f8f2;
+      padding: 20px;
+      border-radius: 8px;
+      overflow-x: auto;
+      margin: 15px 0;
+      font-family: 'Monaco', 'Courier New', monospace;
+      font-size: 13px;
+      line-height: 1.5;
+      border-left: 4px solid #667eea;
+    }
+
+    pre code {
+      background: none;
+      padding: 0;
+      color: #f8f8f2;
+    }
+
+    .good {
+      color: #2ecc71;
+      font-weight: 600;
+    }
+
+    .bad {
+      color: #e74c3c;
+      font-weight: 600;
+    }
+
+    .warning {
+      color: #f39c12;
+      font-weight: 600;
+    }
+
+    .info-box {
+      background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.05) 100%);
+      border-left: 4px solid #667eea;
+      padding: 20px;
+      margin: 20px 0;
+      border-radius: 6px;
+    }
+
+    .warning-box {
+      background: linear-gradient(135deg, rgba(244, 67, 54, 0.1) 0%, rgba(244, 67, 54, 0.05) 100%);
+      border-left: 4px solid #f44336;
+      padding: 20px;
+      margin: 20px 0;
+      border-radius: 6px;
+    }
+
+    .success-box {
+      background: linear-gradient(135deg, rgba(46, 204, 113, 0.1) 0%, rgba(46, 204, 113, 0.05) 100%);
+      border-left: 4px solid #2ecc71;
+      padding: 20px;
+      margin: 20px 0;
+      border-radius: 6px;
+    }
+
+    ul, ol {
+      margin-left: 25px;
+      margin-bottom: 15px;
+    }
+
+    li {
+      margin-bottom: 10px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      border-radius: 6px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    th {
+      background: #667eea;
+      color: white;
+      padding: 15px;
+      text-align: left;
+      font-weight: 600;
+    }
+
+    td {
+      padding: 12px 15px;
+      border-bottom: 1px solid #e0e0e0;
+    }
+
+    tr:hover {
+      background: #f9f9f9;
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    .checklist {
+      background: #f9f9f9;
+      padding: 20px;
+      border-radius: 6px;
+      margin: 15px 0;
+    }
+
+    .checklist ul {
+      list-style: none;
+      margin-left: 0;
+    }
+
+    .checklist li {
+      padding: 8px 0;
+      padding-left: 30px;
+      position: relative;
+    }
+
+    .checklist li:before {
+      content: "☐";
+      position: absolute;
+      left: 0;
+      color: #667eea;
+      font-size: 18px;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      margin-right: 8px;
+      text-transform: uppercase;
+    }
+
+    .badge-critical {
+      background: #ffebee;
+      color: #c62828;
+    }
+
+    .badge-high {
+      background: #fff3e0;
+      color: #e65100;
+    }
+
+    .badge-warning {
+      background: #fffde7;
+      color: #f57f17;
+    }
+
+    .badge-success {
+      background: #e8f5e9;
+      color: #1b5e20;
+    }
+
+    footer {
+      background: #f5f5f5;
+      padding: 30px 40px;
+      border-top: 2px solid #e0e0e0;
+      text-align: center;
+      color: #666;
+      font-size: 14px;
+    }
+
+    .back-to-top {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background: #667eea;
+      color: white;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      transition: all 0.3s;
+    }
+
+    .back-to-top:hover {
+      background: #764ba2;
+      transform: translateY(-5px);
+    }
+
+    .back-to-top.show {
+      display: flex;
+    }
+
+    @media (max-width: 768px) {
+      body {
+        padding: 10px;
+      }
+
+      header {
+        padding: 40px 20px;
+      }
+
+      header h1 {
+        font-size: 32px;
+      }
+
+      main {
+        padding: 20px;
+      }
+
+      .toc-list {
+        grid-template-columns: 1fr;
+      }
+
+      h2 {
+        font-size: 24px;
+      }
+
+      h3 {
+        font-size: 18px;
+      }
+
+      pre {
+        font-size: 12px;
+        padding: 15px;
+      }
+
+      .back-to-top {
+        bottom: 20px;
+        right: 20px;
+        width: 45px;
+        height: 45px;
+      }
+    }
+
+    .example-good {
+      border-left: 4px solid #2ecc71;
+      padding: 15px;
+      margin: 10px 0;
+      background: #f0fdf4;
+      border-radius: 4px;
+    }
+
+    .example-bad {
+      border-left: 4px solid #e74c3c;
+      padding: 15px;
+      margin: 10px 0;
+      background: #fef2f2;
+      border-radius: 4px;
+    }
+
+    .command {
+      background: #2d2d2d;
+      color: #f8f8f2;
+      padding: 12px 16px;
+      border-radius: 4px;
+      font-family: monospace;
+      margin: 10px 0;
+      display: inline-block;
+      overflow-x: auto;
+      max-width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>🔐 Secure Coding & Privacy Best Practices</h1>
+      <p>Essential guidelines for maintaining secure code and protecting sensitive information</p>
+    </header>
+
+    <div class="toc">
+      <h2>📚 Quick Navigation</h2>
+      <div class="toc-list">
+        <a href="#secret-management">Secret Management</a>
+        <a href="#code-review">Code Review Practices</a>
+        <a href="#git-workflow">Git Workflow & Commits</a>
+        <a href="#environment">Environment Configuration</a>
+        <a href="#dependencies">Dependency Management</a>
+        <a href="#local-dev">Local Development Security</a>
+        <a href="#cicd">CI/CD Security</a>
+        <a href="#monitoring">Monitoring & Logging</a>
+        <a href="#team">Team Guidelines</a>
+        <a href="#emergency">Emergency Response</a>
+      </div>
+    </div>
+
+    <main>
+      <!-- Secret Management -->
+      <section id="secret-management">
+        <h2>🔑 Secret Management</h2>
+        
+        <h3>✅ DO</h3>
+        <div class="success-box">
+          <ul>
+            <li><strong>Store all secrets in <code>.env</code> files</strong> - Never hardcode credentials</li>
+            <li><strong>Use environment variables</strong> for: API keys, database passwords, JWT secrets, OAuth tokens, private keys, webhook secrets</li>
+            <li><strong>Rotate secrets regularly</strong>: Critical (30 days), High (90 days), After incidents (immediately)</li>
+            <li><strong>Use strong secret values</strong>: 32+ characters, mixed case + numbers + symbols, generated by service provider</li>
+            <li><strong>Create separate credentials per environment</strong>: Development, Staging, Production</li>
+            <li><strong>Audit secret access</strong> - Know who accessed what and when</li>
+          </ul>
+        </div>
+
+        <h3>❌ DON'T</h3>
+        <div class="warning-box">
+          <ul>
+            <li>❌ Commit <code>.env</code> files to Git</li>
+            <li>❌ Hardcode API keys or tokens in source code</li>
+            <li>❌ Share secrets via Slack, email, or unencrypted channels</li>
+            <li>❌ Use production secrets in development</li>
+            <li>❌ Log or console.log secret values</li>
+            <li>❌ Include secrets in error messages</li>
+            <li>❌ Reuse the same secret across multiple environments</li>
+            <li>❌ Store plaintext passwords in comments</li>
+          </ul>
+        </div>
+
+        <div class="info-box">
+          <h4>💡 Example</h4>
+          <div class="example-good">
+            <strong class="good">✓ GOOD:</strong>
+            <pre><code>const apiKey = process.env.STRIPE_API_KEY;
+const dbUrl = process.env.DATABASE_URL;</code></pre>
+          </div>
+          <div class="example-bad">
+            <strong class="bad">✗ BAD:</strong>
+            <pre><code>const apiKey = "sk_live_1234567890abcdef";
+const dbUrl = "postgres://user:password@host:5432/db";</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <!-- Code Review Practices -->
+      <section id="code-review">
+        <h2>👁️ Code Review Practices</h2>
+
+        <h3>Pre-Commit Review Checklist</h3>
+        <div class="checklist">
+          <ul>
+            <li>No hardcoded secrets - Run Guardian to scan</li>
+            <li>No API keys or tokens - Check comments and strings</li>
+            <li>Environment variables used - Sensitive data from .env</li>
+            <li>No debug logging - console.log() with sensitive data removed</li>
+            <li>No commented credentials - Delete all commented passwords/keys</li>
+            <li>Dependencies verified - npm audit passed</li>
+            <li>No new large files - 20MB+ files should be questioned</li>
+            <li>Git history clean - No accidental commits with secrets</li>
+          </ul>
+        </div>
+
+        <h3>PR Review Standards</h3>
+        <div class="info-box">
+          <h4>Security Checklist for Pull Requests:</h4>
+          <ol>
+            <li><strong>Secret Exposure Check</strong>
+              <ul>
+                <li>Run Guardian Scanner</li>
+                <li>Check for hardcoded credentials</li>
+                <li>Verify .env is in .gitignore</li>
+              </ul>
+            </li>
+            <li><strong>Dependency Safety</strong>
+              <ul>
+                <li>Run npm audit</li>
+                <li>Check for known vulnerabilities</li>
+                <li>Review new dependencies</li>
+              </ul>
+            </li>
+            <li><strong>Data Handling</strong>
+              <ul>
+                <li>Sensitive data encrypted in transit</li>
+                <li>PII not logged or exposed</li>
+                <li>Proper error handling without details</li>
+              </ul>
+            </li>
+            <li><strong>Access Control</strong>
+              <ul>
+                <li>API keys scoped to minimum permissions</li>
+                <li>Database credentials read-only if possible</li>
+                <li>Webhook signatures validated</li>
+              </ul>
+            </li>
+          </ol>
+        </div>
+      </section>
+
+      <!-- Git Workflow & Commits -->
+      <section id="git-workflow">
+        <h2>📝 Git Workflow & Commits</h2>
+
+        <h3>.gitignore Best Practices</h3>
+        <div class="command">
+# Environment files<br>
+.env<br>
+.env.local<br>
+.env.*.local<br>
+<br>
+# Secrets & Keys<br>
+**/secrets/**<br>
+*.pem<br>
+*.key<br>
+credentials.json<br>
+        </div>
+
+        <h3>Commit Message Guidelines</h3>
+        <div class="example-good">
+          <strong class="good">✓ GOOD:</strong>
+          <pre><code>git commit -m "Add AWS configuration
+
+- Configure S3 bucket access
+- Use environment variables for credentials
+- See docs/CONFIGURATION.md for setup"</code></pre>
+        </div>
+        <div class="example-bad">
+          <strong class="bad">✗ BAD:</strong>
+          <pre><code>git commit -m "Add AWS key: AKIAIOSFODNN7EXAMPLE"</code></pre>
+        </div>
+
+        <h3>If a Secret Was Accidentally Committed</h3>
+        <div class="warning-box">
+          <ol>
+            <li><strong>Immediately rotate the secret!</strong> (within 5 minutes)</li>
+            <li>Clean from git history using <code>git-filter-branch</code></li>
+            <li>Force push after review</li>
+            <li>Notify team and audit access logs</li>
+          </ol>
+        </div>
+      </section>
+
+      <!-- Environment Configuration -->
+      <section id="environment">
+        <h2>⚙️ Environment Configuration</h2>
+
+        <h3>Development Environment Template</h3>
+        <p>Create <code>.env.example</code> in repository (NO REAL SECRETS):</p>
+        <pre><code># .env.example - Copy this file to .env and fill with your values
+
+API_KEYS
+STRIPE_API_KEY=sk_test_XXXXXXXXXXXXXXXXXXXXXXXX
+GOOGLE_API_KEY=AIza_XXXXXXXXXXXXXXXXXXXXXXXX
+
+# Database
+DATABASE_URL=postgresql://user:password@localhost:5432/dbname
+
+# JWT
+JWT_SECRET=your-secret-key-here-minimum-32-chars
+
+# Environment
+NODE_ENV=development</code></pre>
+      </section>
+
+      <!-- Dependency Management -->
+      <section id="dependencies">
+        <h2>📦 Dependency Management</h2>
+
+        <h3>Vulnerability Scanning</h3>
+        <div class="command">npm audit</div>
+        <div class="command">npm audit fix</div>
+        <div class="command">npm audit --production</div>
+
+        <h3>Best Practices</h3>
+        <ul>
+          <li>✅ Use <code>npm ci</code> in CI/CD (not <code>npm install</code>)</li>
+          <li>✅ Lock versions with <code>package-lock.json</code></li>
+          <li>✅ Regularly update dependencies (test after!)</li>
+          <li>✅ Use semantic versioning carefully</li>
+          <li>✅ Audit each new dependency before adding</li>
+        </ul>
+      </section>
+
+      <!-- Local Development Security -->
+      <section id="local-dev">
+        <h2>💻 Local Development Security</h2>
+
+        <h3>Safe Development Practices</h3>
+        <ul>
+          <li>✅ Use separate user accounts for dev vs. production</li>
+          <li>✅ Disable unnecessary services (SSH, etc.)</li>
+          <li>✅ Keep OS and tools updated</li>
+          <li>✅ Use full-disk encryption on laptop</li>
+          <li>✅ Lock computer when away from desk</li>
+          <li>✅ Don't shoulder-surf sensitive information</li>
+          <li>✅ Use secure WiFi (VPN) for remote work</li>
+        </ul>
+
+        <h3>Pre-commit Hooks</h3>
+        <p>Use Git hooks to prevent secrets from committing:</p>
+        <pre><code>#!/bin/bash
+# .git/hooks/pre-commit
+
+# Run Guardian Scanner
+npm run scan
+
+# Check for environment files
+if git diff --cached --name-only | grep -qE "\\.env|\\.pem"; then
+  echo "❌ ERROR: Attempting to commit sensitive files!"
+  exit 1
+fi</code></pre>
+      </section>
+
+      <!-- CI/CD Security -->
+      <section id="cicd">
+        <h2>🚀 CI/CD Security</h2>
+
+        <h3>GitHub Actions Best Practices</h3>
+        <div class="info-box">
+          <strong>✅ DO - Use GitHub Secrets, not hardcoded values</strong>
+          <pre><code>env:
+  API_KEY: ${{ secrets.API_KEY }}</code></pre>
+
+          <strong class="bad">❌ DON'T - Hardcode secrets</strong>
+          <pre><code>env:
+  API_KEY: "sk_live_12345678"</code></pre>
+        </div>
+
+        <h3>Branch Protection Rules</h3>
+        <div class="checklist">
+          <ul>
+            <li>Require status checks to pass (Guardian Scanner, npm test, npm audit)</li>
+            <li>Require pull request reviews before merging</li>
+            <li>Restrict who can push (Admins only)</li>
+            <li>Include administrators in restrictions</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- Monitoring & Logging -->
+      <section id="monitoring">
+        <h2>📊 Monitoring & Logging</h2>
+
+        <h3>What NOT to Log</h3>
+        <div class="example-bad">
+          <strong class="bad">❌ Never log these:</strong>
+          <pre><code>console.log('API Key:', apiKey);
+console.error('Database password:', dbPassword);
+console.log('User token:', jwtToken);
+throw new Error(`Failed with: ${connectionString}`);</code></pre>
+        </div>
+
+        <h3>Safe Logging</h3>
+        <div class="example-good">
+          <strong class="good">✓ Mask sensitive data:</strong>
+          <pre><code>const maskSecret = (secret) => {
+  if (secret.length <= 8) return '***';
+  return secret.substring(0, 4) + 
+         '*'.repeat(secret.length - 8) + 
+         secret.substring(secret.length - 4);
+};
+
+logger.info('API call', { 
+  endpoint: 'https://api.stripe.com/v1/charges',
+  key: maskSecret(apiKey)  // "sk_t...ample"
+});</code></pre>
+        </div>
+      </section>
+
+      <!-- Team Guidelines -->
+      <section id="team">
+        <h2>👥 Team Guidelines</h2>
+
+        <h3>Access Control - Principle of Least Privilege</h3>
+        <table>
+          <tr>
+            <th>Role</th>
+            <th>Secrets</th>
+            <th>Logs</th>
+            <th>Deploy</th>
+            <th>Config</th>
+          </tr>
+          <tr>
+            <td><strong>Developer</strong></td>
+            <td>Dev/Test</td>
+            <td>Current</td>
+            <td>Dev</td>
+            <td>Dev</td>
+          </tr>
+          <tr>
+            <td><strong>DevOps</strong></td>
+            <td>All</td>
+            <td>All</td>
+            <td>All</td>
+            <td>All</td>
+          </tr>
+          <tr>
+            <td><strong>QA</strong></td>
+            <td>Test</td>
+            <td>Test</td>
+            <td>No</td>
+            <td>Test</td>
+          </tr>
+          <tr>
+            <td><strong>Manager</strong></td>
+            <td>No</td>
+            <td>Summary</td>
+            <td>No</td>
+            <td>No</td>
+          </tr>
+        </table>
+
+        <h3>Onboarding Checklist</h3>
+        <div class="checklist">
+          <ul>
+            <li>Provide this security guide</li>
+            <li>Send environment setup instructions privately</li>
+            <li>Add to GitHub team with appropriate permissions</li>
+            <li>Enable 2FA on their account</li>
+            <li>Share secret distribution ceremony</li>
+            <li>Require them to sign security agreement</li>
+            <li>Review with them on day 1</li>
+          </ul>
+        </div>
+
+        <h3>Offboarding Checklist</h3>
+        <div class="checklist">
+          <ul>
+            <li>Rotate all secrets they had access to</li>
+            <li>Remove Git push access within 24 hours</li>
+            <li>Revoke API keys they used</li>
+            <li>Remove from sensitive services</li>
+            <li>Audit their recent commits for secrets</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- Emergency Response -->
+      <section id="emergency">
+        <h2>🚨 Emergency Response - If a Secret is Exposed</h2>
+
+        <div class="warning-box">
+          <h3>Immediate Actions (within 5 minutes)</h3>
+          <ol>
+            <li><strong>📢 Notify the team</strong> in #security channel</li>
+            <li><strong>🔄 Rotate the secret immediately</strong> in the service provider</li>
+            <li><strong>🧹 Clean Git history</strong> using git-filter-branch</li>
+            <li><strong>🔍 Audit access logs</strong> for suspicious activity</li>
+          </ol>
+        </div>
+
+        <h3>Within 24 Hours</h3>
+        <div class="checklist">
+          <ul>
+            <li>Document what happened (root cause)</li>
+            <li>Determine who had access</li>
+            <li>Review permissions for principle of least privilege</li>
+            <li>Update security policies if needed</li>
+            <li>Send incident report to leadership</li>
+            <li>Hold post-mortem meeting</li>
+          </ul>
+        </div>
+
+        <h3>Incident Response Contacts</h3>
+        <table>
+          <tr>
+            <th>Role</th>
+            <th>Person</th>
+            <th>Email</th>
+            <th>Phone</th>
+          </tr>
+          <tr>
+            <td><strong>Security Lead</strong></td>
+            <td>-</td>
+            <td>security@example.com</td>
+            <td>555-0100</td>
+          </tr>
+          <tr>
+            <td><strong>DevOps</strong></td>
+            <td>-</td>
+            <td>devops@example.com</td>
+            <td>555-0101</td>
+          </tr>
+          <tr>
+            <td><strong>Project Lead</strong></td>
+            <td>-</td>
+            <td>project@example.com</td>
+            <td>555-0102</td>
+          </tr>
+        </table>
+      </section>
+
+      <!-- FAQ -->
+      <section>
+        <h2>❓ FAQ</h2>
+
+        <h4>Q: Can I test with production secrets?</h4>
+        <p><span class="badge badge-critical">NO</span> Always use test/development keys. If you accidentally use production, rotate immediately.</p>
+
+        <h4>Q: Is it safe to commit .env.example?</h4>
+        <p><span class="badge badge-success">YES</span> Make sure it has NO real values, only templates and comments.</p>
+
+        <h4>Q: How often should I rotate secrets?</h4>
+        <ul>
+          <li><strong>Critical</strong> (DB passwords): Every 30 days</li>
+          <li><strong>High</strong> (API keys): Every 90 days</li>
+          <li><strong>After any incident</strong>: Immediately</li>
+          <li><strong>When someone leaves</strong>: Immediately</li>
+        </ul>
+
+        <h4>Q: Can I use the same key across environments?</h4>
+        <p><span class="badge badge-critical">NO</span> Each environment needs its own credentials for access control.</p>
+      </section>
+    </main>
+
+    <footer>
+      <p>🔐 <strong>Secure Coding & Privacy Best Practices</strong> for Guardian Secrets Scanner</p>
+      <p>Last Updated: February 17, 2026 | Next Review: May 17, 2026</p>
+      <p>📧 Questions? Contact security@example.com</p>
+    </footer>
+  </div>
+
+  <div class="back-to-top" id="backToTop">↑</div>
+
+  <script>
+    // Back to top button
+    const backToTop = document.getElementById('backToTop');
+    
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 300) {
+        backToTop.classList.add('show');
+      } else {
+        backToTop.classList.remove('show');
+      }
+    });
+
+    backToTop.addEventListener('click', () => {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    });
+
+    // Smooth scrolling for TOC links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }
+      });
+    });
+
+    // Add copy to clipboard functionality for code blocks
+    document.querySelectorAll('pre').forEach(block => {
+      const wrapper = document.createElement('div');
+      wrapper.style.position = 'relative';
+      block.parentNode.insertBefore(wrapper, block);
+      wrapper.appendChild(block);
+
+      const button = document.createElement('button');
+      button.textContent = '📋 Copy';
+      button.style.cssText = `
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: #667eea;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        padding: 6px 12px;
+        cursor: pointer;
+        font-size: 12px;
+        font-weight: 600;
+        opacity: 0.7;
+        transition: all 0.3s;
+      `;
+
+      button.addEventListener('mouseover', () => {
+        button.style.opacity = '1';
+        button.style.backgroundColor = '#764ba2';
+      });
+
+      button.addEventListener('mouseout', () => {
+        button.style.opacity = '0.7';
+        button.style.backgroundColor = '#667eea';
+      });
+
+      button.addEventListener('click', () => {
+        const text = block.innerText;
+        navigator.clipboard.writeText(text).then(() => {
+          button.textContent = '✓ Copied!';
+          setTimeout(() => {
+            button.textContent = '📋 Copy';
+          }, 2000);
+        });
+      });
+
+      wrapper.appendChild(button);
+    });
+  </script>
+</body>
+</html>

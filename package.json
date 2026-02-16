@@ -1,0 +1,201 @@
+{
+  "name": "guardian-secrets-scanner",
+  "displayName": "Guardian - Secrets Scanner",
+  "description": "Advanced security scanner that detects passwords, API keys, tokens, and sensitive data across all file types with entropy analysis and custom pattern detection",
+  "version": "1.0.0",
+  "publisher": "security-guardian",
+  "icon": "images/icon.png",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Linters",
+    "Other"
+  ],
+  "keywords": [
+    "security",
+    "secrets",
+    "passwords",
+    "api-keys",
+    "credentials",
+    "scanner"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "guardian.scanWorkspace",
+        "title": "Guardian: Scan Entire Workspace for Secrets"
+      },
+      {
+        "command": "guardian.scanCurrentFile",
+        "title": "Guardian: Scan Current File"
+      },
+      {
+        "command": "guardian.showDashboard",
+        "title": "Guardian: Show Security Dashboard"
+      },
+      {
+        "command": "guardian.clearFindings",
+        "title": "Guardian: Clear All Findings"
+      },
+      {
+        "command": "guardian.exportReport",
+        "title": "Guardian: Export Security Report"
+      },
+      {
+        "command": "guardian.addCustomPattern",
+        "title": "Guardian: Add Custom Detection Pattern"
+      },
+      {
+        "command": "guardian.installPreCommitHook",
+        "title": "Guardian: Install Pre-commit Hook (Block Commits)"
+      },
+      {
+        "command": "guardian.uninstallPreCommitHook",
+        "title": "Guardian: Uninstall Pre-commit Hook"
+      },
+      {
+        "command": "guardian.scanStagedFiles",
+        "title": "Guardian: Scan Staged Files"
+      },
+      {
+        "command": "guardian.addGitignoreEntries",
+        "title": "Guardian: Add Secret Patterns to .gitignore"
+      }
+    ],
+    "configuration": {
+      "title": "Guardian Secrets Scanner",
+      "properties": {
+        "guardian.scanOnSave": {
+          "type": "boolean",
+          "default": true,
+          "description": "Automatically scan files when saved"
+        },
+        "guardian.scanOnOpen": {
+          "type": "boolean",
+          "default": false,
+          "description": "Automatically scan files when opened"
+        },
+        "guardian.enableEntropyAnalysis": {
+          "type": "boolean",
+          "default": true,
+          "description": "Use entropy analysis to detect high-randomness strings (potential secrets)"
+        },
+        "guardian.entropyThreshold": {
+          "type": "number",
+          "default": 4.5,
+          "minimum": 3.0,
+          "maximum": 6.0,
+          "description": "Entropy threshold for secret detection (higher = stricter)"
+        },
+        "guardian.excludePatterns": {
+          "type": "array",
+          "default": [
+            "**/node_modules/**",
+            "**/dist/**",
+            "**/build/**",
+            "**/.git/**",
+            "**/vendor/**"
+          ],
+          "description": "Glob patterns for files/folders to exclude from scanning"
+        },
+        "guardian.severityLevel": {
+          "type": "string",
+          "enum": ["critical", "high", "medium", "low"],
+          "default": "medium",
+          "description": "Minimum severity level to report"
+        },
+        "guardian.customPatterns": {
+          "type": "array",
+          "default": [],
+          "description": "Custom regex patterns for detecting secrets"
+        },
+        "guardian.scanBinaryFiles": {
+          "type": "boolean",
+          "default": false,
+          "description": "Scan binary files (xlsx, docx, etc.) - may impact performance"
+        },
+        "guardian.git.blockOnCritical": {
+          "type": "boolean",
+          "default": true,
+          "description": "Block Git commits when critical severity secrets are detected"
+        },
+        "guardian.git.blockOnHigh": {
+          "type": "boolean",
+          "default": false,
+          "description": "Block Git commits when high severity secrets are detected"
+        },
+        "guardian.git.autoScanStaged": {
+          "type": "boolean",
+          "default": false,
+          "description": "Automatically scan staged files before commit (requires Git extension)"
+        }
+      }
+    },
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "guardian-security",
+          "title": "Guardian Security",
+          "icon": "resources/shield.svg"
+        }
+      ]
+    },
+    "views": {
+      "guardian-security": [
+        {
+          "id": "guardianFindings",
+          "name": "Security Findings"
+        },
+        {
+          "id": "guardianStats",
+          "name": "Statistics"
+        }
+      ]
+    },
+    "colors": [
+      {
+        "id": "guardian.criticalFinding",
+        "description": "Color for critical severity findings",
+        "defaults": {
+          "dark": "#ff4444",
+          "light": "#cc0000"
+        }
+      },
+      {
+        "id": "guardian.highFinding",
+        "description": "Color for high severity findings",
+        "defaults": {
+          "dark": "#ff8800",
+          "light": "#dd6600"
+        }
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "lint": "eslint src --ext ts",
+    "test": "npm run compile && node ./out/test/runTest.js",
+    "pretest": "npm run compile"
+  },
+  "devDependencies": {
+    "@types/node": "^20.x",
+    "@types/vscode": "^1.85.0",
+    "@types/mocha": "^10.x",
+    "@types/glob": "^8.x",
+    "@typescript-eslint/eslint-plugin": "^6.x",
+    "@typescript-eslint/parser": "^6.x",
+    "eslint": "^8.x",
+    "typescript": "^5.3.0",
+    "mocha": "^10.x",
+    "glob": "^10.x",
+    "@vscode/test-electron": "^2.3.x"
+  },
+  "dependencies": {}
+}

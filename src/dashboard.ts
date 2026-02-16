@@ -423,6 +423,107 @@ export class DashboardProvider {
       margin-top: 10px;
       line-height: 1.6;
     }
+
+    .findings-details {
+      margin-top: 40px;
+      animation: slideIn 0.5s ease-out;
+    }
+
+    .findings-title {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 20px;
+      padding-bottom: 12px;
+      border-bottom: 3px solid;
+      border-image: linear-gradient(90deg, #ff6b6b, #ff9800) 1;
+      color: var(--vscode-editor-foreground);
+    }
+
+    .finding-item {
+      background: linear-gradient(135deg, rgba(255, 107, 107, 0.05) 0%, rgba(255, 152, 0, 0.02) 100%);
+      border: 2px solid rgba(255, 107, 107, 0.2);
+      border-left: 6px solid;
+      border-radius: 10px;
+      padding: 18px;
+      margin-bottom: 16px;
+      transition: all 0.3s ease;
+    }
+
+    .finding-item:hover {
+      transform: translateX(6px);
+      box-shadow: 0 8px 20px rgba(255, 107, 107, 0.15);
+    }
+
+    .finding-item.critical {
+      border-left-color: #f44336;
+    }
+
+    .finding-item.high {
+      border-left-color: #ff9800;
+    }
+
+    .finding-item.medium {
+      border-left-color: #ffeb3b;
+    }
+
+    .finding-item.low {
+      border-left-color: #2196f3;
+    }
+
+    .finding-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .finding-pattern {
+      font-weight: 700;
+      font-size: 15px;
+      color: var(--vscode-editor-foreground);
+    }
+
+    .finding-location {
+      font-size: 12px;
+      color: var(--vscode-descriptionForeground);
+      font-family: monospace;
+      background: rgba(0, 0, 0, 0.2);
+      padding: 2px 6px;
+      border-radius: 3px;
+    }
+
+    .finding-description {
+      font-size: 14px;
+      color: var(--vscode-descriptionForeground);
+      margin-bottom: 12px;
+    }
+
+    .suggested-fix {
+      background: linear-gradient(135deg, rgba(76, 175, 80, 0.1) 0%, rgba(33, 150, 243, 0.05) 100%);
+      border-left: 4px solid #4caf50;
+      padding: 12px;
+      border-radius: 6px;
+      margin-top: 12px;
+    }
+
+    .suggested-fix-label {
+      font-weight: 700;
+      color: #4caf50;
+      font-size: 12px;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .suggested-fix-text {
+      font-size: 14px;
+      color: var(--vscode-editor-foreground);
+      line-height: 1.6;
+    }
   </style>
 </head>
 <body>
@@ -434,7 +535,7 @@ export class DashboardProvider {
     <p class="subtitle">Real-time security monitoring for your workspace</p>
   </div>
 
-  ${findings.length === 0 ? this._getNoFindingsHtml() : this._getFindingsHtml(stats)}
+  ${findings.length === 0 ? this._getNoFindingsHtml() : this._getFindingsHtml(stats, findings)}
 
 </body>
 </html>`;
@@ -453,7 +554,7 @@ export class DashboardProvider {
     `;
   }
 
-  private _getFindingsHtml(stats: any): string {
+  private _getFindingsHtml(stats: any, findings: Finding[]): string {
     return `
       <div class="stats-grid">
         <div class="stat-card critical">
@@ -486,6 +587,11 @@ export class DashboardProvider {
         <div class="category-grid">
           ${this._getTopFilesHtml(stats.byFile)}
         </div>
+      </div>
+
+      <div class="findings-details">
+        <h2 class="findings-title">📋 Detailed Findings & Quick Fixes</h2>
+        ${this._getDetailedFindingsHtml(findings)}
       </div>
 
       ${this._getRecommendationsHtml(stats)}
@@ -594,5 +700,31 @@ export class DashboardProvider {
     }
 
     return stats;
+  }
+
+  private _getDetailedFindingsHtml(findings: Finding[]): string {
+    // Group findings by severity for display (critical first)
+    const sorted = [...findings].sort((a, b) => {
+      const severityOrder: { [k: string]: number } = { critical: 0, high: 1, medium: 2, low: 3 };
+      return (severityOrder[a.severity] || 4) - (severityOrder[b.severity] || 4);
+    });
+
+    // Show top 15 findings with suggestions (most critical first)
+    return sorted.slice(0, 15).map(finding => {
+      const fileName = finding.file.split(/[/\\]/).pop() || finding.file;
+      return `
+        <div class="finding-item ${finding.severity}">
+          <div class="finding-header">
+            <span class="finding-pattern">${finding.pattern}</span>
+            <span class="finding-location">${fileName}:${finding.line}</span>
+          </div>
+          <div class="finding-description">${finding.description}</div>
+          <div class="suggested-fix">
+            <div class="suggested-fix-label">💡 Quick Fix:</div>
+            <div class="suggested-fix-text">${finding.suggestedFix}</div>
+          </div>
+        </div>
+      `;
+    }).join('');
   }
 }

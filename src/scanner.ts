@@ -16,6 +16,7 @@ export interface Finding {
   description: string;
   category: string;
   context: string;
+  suggestedFix: string;
   entropy?: number;
 }
 
@@ -85,6 +86,7 @@ export class ScannerEngine {
             description: pattern.description,
             category: pattern.category,
             context: this.maskSecret(context),
+            suggestedFix: pattern.suggestedFix,
             entropy,
           };
 
@@ -211,6 +213,7 @@ export class ScannerEngine {
             description: `High entropy string detected (entropy: ${entropy.toFixed(2)})`,
             category: 'Entropy Analysis',
             context: this.maskSecret(context),
+            suggestedFix: '❓ Review this value - it appears secret-like. If real: DELETE and move to .env. If not: Mark as safe with // guardian:ignore',
             entropy,
           });
         }
@@ -276,6 +279,7 @@ export class ScannerEngine {
       severity: cp.severity || 'medium',
       description: cp.description || 'Custom pattern match',
       category: 'Custom',
+      suggestedFix: cp.suggestedFix || 'Review and remediate according to your security policy.',
     }));
   }
 

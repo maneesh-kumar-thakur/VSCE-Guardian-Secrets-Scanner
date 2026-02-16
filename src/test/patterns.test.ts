@@ -430,6 +430,7 @@ suite('Secret Pattern Library Tests', () => {
         severity: 'high',
         description: 'Test pattern',
         category: 'Test',
+        suggestedFix: 'Remove this test pattern from code.',
       };
       
       SecretPatternLibrary.addCustomPattern(customPattern);
@@ -445,6 +446,7 @@ suite('Secret Pattern Library Tests', () => {
         severity: 'critical',
         description: 'Custom app API key',
         category: 'Custom',
+        suggestedFix: 'DELETE IMMEDIATELY and regenerate API key.',
       };
       
       SecretPatternLibrary.addCustomPattern(customPattern);

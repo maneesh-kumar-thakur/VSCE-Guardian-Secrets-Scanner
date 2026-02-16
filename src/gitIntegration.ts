@@ -4,12 +4,12 @@
  */
 
 import * as vscode from 'vscode';
-import * as path from 'path';
-import * as fs from 'fs';
+import * as path from 'node:path';
+import * as fs from 'node:fs';
 import { ScannerEngine, Finding } from './scanner';
 
 export class GitIntegration {
-  private scanner: ScannerEngine;
+  private readonly scanner: ScannerEngine;
 
   constructor(scanner: ScannerEngine) {
     this.scanner = scanner;

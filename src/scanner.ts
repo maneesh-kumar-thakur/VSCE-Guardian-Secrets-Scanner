@@ -290,7 +290,8 @@ export class ScannerEngine {
       );
 
       const severity = this.getSeverityLevel(finding.severity);
-      const message = `${finding.description} (${finding.category})${finding.entropy ? ` [Entropy: ${finding.entropy.toFixed(2)}]` : ''}`;
+      const entropyInfo = finding.entropy ? ` [Entropy: ${finding.entropy.toFixed(2)}]` : '';
+      const message = `${finding.description} (${finding.category})${entropyInfo}`;
 
       return new vscode.Diagnostic(range, message, severity);
     });

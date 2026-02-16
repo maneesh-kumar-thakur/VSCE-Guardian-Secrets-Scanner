@@ -3,14 +3,16 @@
  */
 
 import * as vscode from 'vscode';
-import * as path from 'path';
+import * as path from 'node:path';
 import { ScannerEngine, Finding } from './scanner';
 
-export class FindingsTreeProvider implements vscode.TreeDataProvider<FindingTreeItem> {
-  private _onDidChangeTreeData: vscode.EventEmitter<FindingTreeItem | undefined | null | void> = new vscode.EventEmitter<FindingTreeItem | undefined | null | void>();
-  readonly onDidChangeTreeData: vscode.Event<FindingTreeItem | undefined | null | void> = this._onDidChangeTreeData.event;
+type TreeDataChange = FindingTreeItem | undefined | null | void;
 
-  constructor(private scanner: ScannerEngine) {}
+export class FindingsTreeProvider implements vscode.TreeDataProvider<FindingTreeItem> {
+  private readonly _onDidChangeTreeData: vscode.EventEmitter<TreeDataChange> = new vscode.EventEmitter<TreeDataChange>();
+  readonly onDidChangeTreeData: vscode.Event<TreeDataChange> = this._onDidChangeTreeData.event;
+
+  constructor(private readonly scanner: ScannerEngine) {}
 
   refresh(): void {
     this._onDidChangeTreeData.fire();

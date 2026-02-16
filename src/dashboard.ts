@@ -394,18 +394,24 @@ export class DashboardProvider {
     const recommendations = [];
 
     if (stats.critical > 0) {
-      recommendations.push('Immediately rotate all critical credentials (AWS keys, private keys, database passwords)');
-      recommendations.push('Review access logs for potential unauthorized access');
+      recommendations.push(
+        'Immediately rotate all critical credentials (AWS keys, private keys, database passwords)',
+        'Review access logs for potential unauthorized access'
+      );
     }
 
     if (stats.high > 0) {
-      recommendations.push('Review and rotate API keys and tokens marked as high severity');
-      recommendations.push('Implement .gitignore rules to prevent future commits');
+      recommendations.push(
+        'Review and rotate API keys and tokens marked as high severity',
+        'Implement .gitignore rules to prevent future commits'
+      );
     }
 
-    recommendations.push('Use environment variables or secret management tools (e.g., AWS Secrets Manager, HashiCorp Vault)');
-    recommendations.push('Enable pre-commit hooks to scan for secrets before committing');
-    recommendations.push('Review repository history and consider using tools like git-filter-repo to remove secrets');
+    recommendations.push(
+      'Use environment variables or secret management tools (e.g., AWS Secrets Manager, HashiCorp Vault)',
+      'Enable pre-commit hooks to scan for secrets before committing',
+      'Review repository history and consider using tools like git-filter-repo to remove secrets'
+    );
 
     return `
       <div class="recommendations">

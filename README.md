@@ -40,9 +40,9 @@ We take our responsibility seriously:
 ### What Makes Guardian Different?
 
 1. **Entropy Analysis** - Uses Shannon entropy calculation to detect high-randomness strings that traditional pattern matching might miss
-2. **Multi-File Type Support** - Scans code, config files, env files, Excel spreadsheets, text files, and more
+2. **Multi-File Type Support** - Scans code, config files, env files, scripts, and text files. Binary files (docx, xlsx, pdf) can be scanned with optional configuration
 3. **Context-Aware Detection** - Analyzes surrounding code to reduce false positives
-4. **Real-Time Scanning** - Automatically scans files on save or open (configurable)
+4. **Real-Time Scanning** - Automatically scans files on save (enabled by default); on-open scanning available (disabled by default)
 5. **Comprehensive Pattern Library** - Detects 40+ types of secrets including:
    - Cloud credentials (AWS, Azure, GCP)
    - API keys and tokens
@@ -127,7 +127,8 @@ Open Settings (`Ctrl+,`) and search for "Guardian":
   // Minimum severity level to report
   "guardian.severityLevel": "medium",
   
-  // Scan binary files (xlsx, docx, etc.)
+  // Scan binary files (xlsx, docx, etc.) - may impact performance
+  // Note: Binary file scanning uses basic pattern matching and may miss secrets in binary formats
   "guardian.scanBinaryFiles": false,
   
   // Patterns to exclude from scanning
@@ -437,9 +438,59 @@ While Guardian is comprehensive, no automated tool catches 100% of secrets. Alwa
 
 ## 📞 Support
 
-- **Issues**: Report bugs on GitHub
-- **Feature Requests**: Open an issue with your idea
-- **Questions**: Check documentation or open a discussion
+### Getting Help
+
+- **Documentation**: 
+  - [Usage Guide](USAGE.md) - Complete usage instructions
+  - [Testing Guide](TESTING.md) - Testing and validation
+  - [Best Practices](docs/SECURE_CODING_PRACTICES.md) - Security best practices
+  - [Build Guide](BUILD.md) - Development and building
+
+- **Report Bugs**: [GitHub Issues](https://github.com/yourusername/guardian-secrets-scanner/issues)
+  - Include Guardian version, VS Code version, file type
+  - Provide minimal reproduction steps
+  - Do NOT include actual secrets in bug reports
+
+- **Feature Requests**: [GitHub Issues](https://github.com/yourusername/guardian-secrets-scanner/issues) with `enhancement` label
+  - Describe the use case
+  - Explain how it improves security
+
+- **Questions & Discussions**: [GitHub Discussions](https://github.com/yourusername/guardian-secrets-scanner/discussions)
+  - Ask questions about usage
+  - Share tips and best practices
+
+### Security Reporting
+
+**IMPORTANT**: If you discover a vulnerability IN Guardian itself:
+
+1. **Do NOT** open a public GitHub issue
+2. Email security details to: [security@example.com](mailto:security@example.com)
+3. Include description, reproduction steps, and potential impact
+4. Allow 48 hours for acknowledgment
+
+### Quick Troubleshooting
+
+**Guardian not detecting secrets?**
+- Verify `guardian.scanOnSave` is enabled in settings
+- Check file type supported (text/code files by default, not binary)
+- Try manual scan: `Ctrl+Shift+P` → "Guardian: Scan Entire Workspace"
+- Review entropy threshold setting
+
+**Too many false positives?**
+- Increase `guardian.entropyThreshold` (higher = stricter detection)
+- Add custom false positive filters in settings
+- See [USAGE.md](USAGE.md) for detailed filtering options
+
+**Pre-commit hook issues?**
+- Verify Git is initialized in workspace
+- Run: `Ctrl+Shift+P` → "Guardian: Install Pre-commit Hook"
+- Check `.git/hooks/pre-commit` file permissions
+
+**Performance concerns?**
+- Disable `guardian.scanOnOpen`
+- Disable `guardian.scanBinaryFiles`
+- Expand `guardian.excludePatterns` for large folders
+- Use `guardian.severityLevel` to focus on critical issues
 
 ---
 

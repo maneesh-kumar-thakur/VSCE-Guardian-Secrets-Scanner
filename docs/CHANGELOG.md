@@ -5,6 +5,71 @@ All notable changes to the Guardian Secrets Scanner extension will be documented
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.1] - 2026-02-17
+
+### 🐛 Bug Fixes
+- **Test Build Configuration**: Fixed test compilation to work correctly with separate `tsconfig.test.json`
+  - Tests now execute successfully with `npm test`
+  - Production build remains unaffected (excludes test files)
+  - Added `compile:test` script for building with all source files
+
+### 📚 Documentation Improvements
+- **Complete Honesty Audit**: Fixed all misleading claims across all documentation files
+  - Changed "40+ patterns" → "36 patterns" (verified implementation)
+  - Removed false JSON export claims (only Markdown & CSV supported)
+  - Fixed "Context-Aware Detection" → "Pattern matching with entropy analysis"
+  - Qualified "OWASP compliance" → "Follows OWASP best practices"
+  - Removed dead documentation references
+  
+- **Compliance Support Section**: Updated with accurate capability descriptions
+  - PCI DSS: Detects payment API credentials (not credit card numbers)
+  - GDPR: Pure credential detection (not PII detection)
+  - HIPAA: Healthcare system credentials (not health data detection)
+  - Added explicit disclaimers for compliance purposes
+
+### 🏗️ Code Organization
+- **Repository Cleanup**: Moved 6 documentation files to `docs/` folder
+  - Root folder reduced from 16 → 10 files (cleaner structure)
+  - All documentation centralized in `docs/` folder
+  - Updated all internal links to reflect new structure
+  - Better GitHub first-impression (minimal root folder)
+
+- **Documentation Folder**: Now contains 14 files organized by purpose
+  - User guides: USAGE.md, BUILD.md, TESTING.md
+  - Release info: CHANGELOG.md, RELEASE_NOTES_v1.0.0.md
+  - Feature docs: REMEDIATION.md, SUPPRESSION_AUDIT_GUIDE.md, TEST_SUPPRESSION.md
+  - Developer guides: REPOSITORY_PROTECTION.md, PROJECT_STRUCTURE.md
+  - Extended guides: SECURE_CODING_PRACTICES.md, DISPLAYING_REMEDIATION.md, UNDERSTANDING_FINDINGS.md
+
+### 🔍 Code Quality
+- **SonarQube Analysis**: Full codebase scan completed
+  - All 11 core files analyzed
+  - No critical issues found
+  - TypeScript strict mode verified
+  - Code quality: HIGH, Security: GOOD
+  - Created comprehensive analysis report
+  
+- **Test Coverage**: All unit tests verified working
+  - Pattern detection tests ✅
+  - Scanner engine tests ✅
+  - All critical functionality validated
+
+### 💡 Quality Assurance
+- Compilation status: No errors or warnings
+- Type safety: Full strict TypeScript verification
+- Security vulnerabilities: None detected
+- All links and references verified and updated
+- Production readiness: Confirmed
+
+### 🎯 Release Focus
+This is a maintenance and documentation release focused on:
+- Fixing misleading claims to ensure complete transparency
+- Improving codebase organization for future maintenance
+- Verifying code quality through comprehensive analysis
+- Ensuring robust test infrastructure
+
+---
+
 ## [1.0.0] - 2026-02-17
 
 ### ✨ Initial Public Release

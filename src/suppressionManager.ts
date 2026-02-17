@@ -5,6 +5,7 @@
 import * as vscode from 'vscode';
 import * as fs from 'fs';
 import * as path from 'path';
+import { SuppressionLogger } from './suppressionLogger';
 
 export interface SuppressionRule {
   id: string;
@@ -34,10 +35,16 @@ export class SuppressionManager {
   private auditLogFile: string;
   private suppressions: Map<string, SuppressionRule> = new Map();
   private auditLog: AuditLogEntry[] = [];
+  private logger: SuppressionLogger;
+  private projectName: string;
+  private workspaceRoot: string;
 
   constructor(workspaceRoot: string) {
+    this.workspaceRoot = workspaceRoot;
     this.suppressionFile = path.join(workspaceRoot, '.vscode', 'guardian-suppressions.json');
     this.auditLogFile = path.join(workspaceRoot, 'SUPPRESSIONS_AUDIT.md');
+    this.logger = new SuppressionLogger(workspaceRoot);
+    this.projectName = path.basename(workspaceRoot) || 'Unknown Project';
     this.loadSuppressions();
     this.loadAuditLog();
   }
@@ -174,6 +181,18 @@ export class SuppressionManager {
       user: username,
     });
 
+    // Log to suppression logger
+    this.logger.log(
+      'suppress',
+      filePath,
+      lineNumber,
+      pattern,
+      severity,
+      username,
+      this.projectName,
+      reason
+    );
+
     return rule;
   }
 
@@ -183,6 +202,8 @@ export class SuppressionManager {
   unsuppress(filePath: string, lineNumber: number, pattern: string, comment?: string): void {
     const id = this.generateId(filePath, lineNumber, pattern);
     const username = this.getUsername();
+    const rule = this.suppressions.get(id);
+    
     this.suppressions.delete(id);
     this.saveSuppressions();
 
@@ -195,6 +216,21 @@ export class SuppressionManager {
       user: username,
       comment,
     });
+
+    // Log to suppression logger
+    if (rule) {
+      this.logger.log(
+        'unsuppress',
+        filePath,
+        lineNumber,
+        pattern,
+        rule.severity,
+        username,
+        this.projectName,
+        undefined,
+        comment
+      );
+    }
   }
 
   /**
@@ -328,5 +364,19 @@ export class SuppressionManager {
     return Array.from(this.suppressions.values()).filter(
       rule => rule.reviewStatus === 'pending' && rule.timestamp < thirtyDaysAgo
     );
+  }
+
+  /**
+   * Get suppression logger instance
+   */
+  getLogger(): SuppressionLogger {
+    return this.logger;
+  }
+
+  /**
+   * Get log file path
+   */
+  getLogFilePath(): string {
+    return this.logger.getLogFilePath();
   }
 }

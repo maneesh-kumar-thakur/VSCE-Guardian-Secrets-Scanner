@@ -85,6 +85,14 @@
       {
         "command": "guardian.reviewPending",
         "title": "Guardian: Review Pending Suppressions (30+ days old)"
+      },
+      {
+        "command": "guardian.viewSuppressionLog",
+        "title": "Guardian: View Suppression Log Report (Date/Time/User/Project Details)"
+      },
+      {
+        "command": "guardian.openSuppressionLogFile",
+        "title": "Guardian: Open Suppression Log File (SUPPRESSIONS.log)"
       }
     ],
     "configuration": {

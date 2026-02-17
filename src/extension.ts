@@ -4,6 +4,7 @@
  */
 
 import * as vscode from 'vscode';
+import * as fs from 'fs';
 import { ScannerEngine, Finding } from './scanner';
 import { FindingsTreeProvider } from './treeProvider';
 import { DashboardProvider } from './dashboard';
@@ -358,6 +359,45 @@ export function activate(context: vscode.ExtensionContext) {
     );
   });
 
+  // View suppression log
+  const viewSuppressionLogCommand = vscode.commands.registerCommand('guardian.viewSuppressionLog', async () => {
+    if (!suppressionManager) {
+      vscode.window.showErrorMessage('Suppression manager not available');
+      return;
+    }
+
+    const logger = suppressionManager.getLogger();
+    const report = logger.generateReport();
+    const doc = await vscode.workspace.openTextDocument({
+      content: report,
+      language: 'markdown',
+    });
+    await vscode.window.showTextDocument(doc);
+    vscode.window.showInformationMessage('✓ Suppression log report generated');
+  });
+
+  // Open suppression log file
+  const openSuppressionLogFileCommand = vscode.commands.registerCommand('guardian.openSuppressionLogFile', async () => {
+    if (!suppressionManager) {
+      vscode.window.showErrorMessage('Suppression manager not available');
+      return;
+    }
+
+    const logPath = suppressionManager.getLogFilePath();
+    if (!vscode.workspace.workspaceFolders) {
+      vscode.window.showErrorMessage('No workspace folder open');
+      return;
+    }
+
+    if (fs.existsSync(logPath)) {
+      const uri = vscode.Uri.file(logPath);
+      const doc = await vscode.workspace.openTextDocument(uri);
+      await vscode.window.showTextDocument(doc);
+    } else {
+      vscode.window.showInformationMessage('No suppression log file yet. Suppressions will create one when first suppressed.');
+    }
+  });
+
   // Register all commands
   context.subscriptions.push(
     scanWorkspaceCommand,
@@ -375,6 +415,8 @@ export function activate(context: vscode.ExtensionContext) {
     viewSuppressedCommand,
     suppressionReportCommand,
     reviewPendingCommand,
+    viewSuppressionLogCommand,
+    openSuppressionLogFileCommand,
     // Auto-scan on save if enabled
     vscode.workspace.onDidSaveTextDocument(async (document) => {
       const config = vscode.workspace.getConfiguration('guardian');

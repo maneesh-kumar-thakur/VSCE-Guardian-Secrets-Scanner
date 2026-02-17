@@ -181,7 +181,7 @@
     "compile": "tsc -p ./",
     "watch": "tsc -watch -p ./",
     "lint": "eslint src --ext ts",
-    "test": "npm run compile && node ./out/test/runTest.js",
+    "test": "npm run compile && node ./dist/test/runTest.js",
     "pretest": "npm run compile"
   },
   "devDependencies": {

@@ -437,27 +437,33 @@ See [TESTING.md](TESTING.md) for detailed testing documentation.
 
 ### Compliance Support
 
-Guardian helps you meet security compliance requirements:
+Guardian can **support your compliance efforts** for security frameworks:
 
 **SOC 2 Type II**:
-- Evidence of secret detection controls
-- Audit trails of security scans
-- Documented remediation processes
+- Provides evidence of secret detection controls
+- Generates audit trails of security scans
+- Supports documented remediation processes
+- *Note: Guardian is ONE control among many required for SOC 2 certification*
 
 **PCI DSS**:
-- Prevents credit card data in code
-- Protects payment credentials
-- Secure development practices
+- Helps prevent credit card data in code
+- Protects payment service credentials
+- Supports secure development practices
+- *Note: Guardian supports PCI DSS Requirement 6.2 (secure coding practices)*
 
 **GDPR**:
-- Prevents PII exposure
-- Local data processing only
-- No cross-border data transfer
+- Helps prevent PII exposure in code
+- Local data processing only (no cross-border transfer)
+- No telemetry or data collection
+- *Note: Guardian supports privacy by design, not GDPR certification*
 
 **HIPAA**:
-- Protects health data
-- Secure credential management
-- Audit trail documentation
+- Helps protect health data by preventing exposure in code
+- Supports secure credential management
+- Provides audit trail documentation
+- *Note: HIPAA compliance requires comprehensive controls beyond Guardian*
+
+**Important**: Use Guardian as part of a comprehensive compliance strategy. Guardian alone does NOT guarantee compliance - consult with your compliance/security teams for full requirements.
 
 ### Security Certifications
 
@@ -512,16 +518,16 @@ While Guardian is comprehensive, no automated tool catches 100% of secrets. Alwa
   - [Best Practices](docs/SECURE_CODING_PRACTICES.md) - Security best practices
   - [Build Guide](BUILD.md) - Development and building
 
-- **Report Bugs**: [GitHub Issues](https://github.com/yourusername/guardian-secrets-scanner/issues)
+- **Report Bugs**: [GitHub Issues](https://github.com/Maneesh-Relanto/VSCE-Guardian-Secrets-Scanner/issues)
   - Include Guardian version, VS Code version, file type
   - Provide minimal reproduction steps
   - Do NOT include actual secrets in bug reports
 
-- **Feature Requests**: [GitHub Issues](https://github.com/yourusername/guardian-secrets-scanner/issues) with `enhancement` label
+- **Feature Requests**: [GitHub Issues](https://github.com/Maneesh-Relanto/VSCE-Guardian-Secrets-Scanner/issues) with `enhancement` label
   - Describe the use case
   - Explain how it improves security
 
-- **Questions & Discussions**: [GitHub Discussions](https://github.com/yourusername/guardian-secrets-scanner/discussions)
+- **Questions & Discussions**: [GitHub Discussions](https://github.com/Maneesh-Relanto/VSCE-Guardian-Secrets-Scanner/discussions)
   - Ask questions about usage
   - Share tips and best practices
 
@@ -530,9 +536,10 @@ While Guardian is comprehensive, no automated tool catches 100% of secrets. Alwa
 **IMPORTANT**: If you discover a vulnerability IN Guardian itself:
 
 1. **Do NOT** open a public GitHub issue
-2. Email security details to: [security@example.com](mailto:security@example.com)
+2. Email security details to: [maneeshkumar.thakur@outlook.com](mailto:maneeshkumar.thakur@outlook.com)
 3. Include description, reproduction steps, and potential impact
 4. Allow 48 hours for acknowledgment
+5. **Alternative**: Use [GitHub Security Advisory](https://github.com/Maneesh-Relanto/VSCE-Guardian-Secrets-Scanner/security)
 
 ### Quick Troubleshooting
 

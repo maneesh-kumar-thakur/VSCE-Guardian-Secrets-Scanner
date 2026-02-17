@@ -12,7 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 **Guardian Secrets Scanner v1.0.0** - Professional-grade secrets detection for VS Code with comprehensive security features, audit logging, and false positive management.
 
 ### 🔍 Core Scanning Features
-- **Advanced Secret Detection**: 40+ patterns for detecting passwords, API keys, tokens, and sensitive data
+- **Advanced Secret Detection**: 36 patterns for detecting passwords, API keys, tokens, and sensitive data
   - Cloud credentials (AWS, Azure, Google Cloud, Alibaba)
   - API keys and bearer tokens (Generic, JWT, OAuth)
   - Database credentials (MongoDB, MySQL, PostgreSQL, Redis, SQL Server)
@@ -107,7 +107,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - USAGE.md: Detailed usage guide and configuration
   - SUPPRESSION_AUDIT_GUIDE.md: Audit logging and compliance
   - TEST_SUPPRESSION.md: Testing guide with examples
-  - GIT_BLOCKING_STRATEGY.md: Pre-commit hook configuration
+  - REPOSITORY_PROTECTION.md: Branch protection and release guidelines
   - REMEDIATION.md: Fix guidance for detected secrets
   - BUILD.md: Development setup
 
@@ -133,11 +133,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - **Shannon Entropy Analysis** for detecting high-randomness strings that pattern matching might miss
 - **Real-Time Scanning** on file save (enabled by default)
-- **Context-Aware Detection** to reduce false positives
+- **Multi-Pattern Detection** with entropy analysis to reduce false positives
 - **Security Dashboard** with beautiful visual findings display
 - **Git Pre-Commit Integration** to block commits containing secrets
 - **Custom Pattern Support** for organization-specific secret formats
-- **Multiple Export Formats** (JSON, Markdown, CSV) for reports
+- **Multiple Export Formats** (Markdown, CSV) for reports
 - **Severity-Based Filtering** (Critical, High, Medium, Low)
 - **Activity Bar Integration** with findings tree view
 - **Status Bar Updates** showing real-time security status

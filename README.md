@@ -43,7 +43,7 @@ We take our responsibility seriously:
 2. **Multi-Language Support** - Scans code files (.js, .ts, .py, .go, etc.), config files (.env, .yaml, etc.), and text files
 3. **Context Preservation** - Includes surrounding code context with each finding for manual review
 4. **Real-Time Scanning** - Automatically scans files on save (enabled by default); on-open scanning available (disabled by default)
-5. **Comprehensive Pattern Library** - Detects 40+ types of secrets including:
+5. **Comprehensive Pattern Library** - Detects 36 types of secrets including:
    - Cloud credentials (AWS, Azure, GCP)
    - API keys and tokens
    - Database connection strings

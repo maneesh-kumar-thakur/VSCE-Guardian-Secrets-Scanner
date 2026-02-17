@@ -173,7 +173,7 @@ This prevents:
 **How it works**:
 - Scans files as you save
 - Pattern matching + entropy analysis
-- Context-aware filtering
+- Smart filtering to reduce false positives
 - Instant feedback via IDE integration
 
 **Security benefit**:
@@ -207,13 +207,13 @@ This prevents:
 - Adaptive to new patterns
 - Reduces false negatives
 
-### 4. Context-Aware Filtering
+### 4. Smart Filtering
 
 **How it works**:
-- Analyzes surrounding code
-- Identifies placeholders
+- Pattern analysis with entropy calculation
+- Placeholder identification
 - Reduces false positives
-- Smart pattern matching
+- Intelligent pattern matching
 
 **Security benefit**:
 - Developer productivity

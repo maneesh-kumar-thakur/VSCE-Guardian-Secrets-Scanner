@@ -84,7 +84,7 @@ src/test/
 - [ ] Test false positive filtering
 - [ ] Test all commands
 - [ ] Verify dashboard displays correctly
-- [ ] Test export formats (JSON, MD, CSV)
+- [ ] Test export formats (Markdown, CSV)
 - [ ] Test custom pattern addition
 - [ ] Verify diagnostics appear correctly
 - [ ] Check status bar updates

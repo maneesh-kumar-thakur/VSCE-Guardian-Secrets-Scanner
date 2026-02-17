@@ -235,9 +235,8 @@ For automated setup or workspace-specific configs:
 
 ### Export Formats
 
-**JSON** - For automation/parsing
-**Markdown** - For documentation
-**CSV** - For spreadsheet analysis
+**Markdown** - For documentation and readability
+**CSV** - For spreadsheet analysis and external tools
 
 ## Best Practices
 

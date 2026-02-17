@@ -3,11 +3,11 @@
 🚀 **Production Release - Now on VS Code Marketplace!**
 
 ## Overview
-Guardian Secrets Scanner is officially released on the VS Code Marketplace. This extension provides real-time, privacy-first secret detection with 40+ patterns covering major cloud providers, payment processors, and communication platforms.
+Guardian Secrets Scanner is officially released on the VS Code Marketplace. This extension provides real-time, privacy-first secret detection with 36 patterns covering major cloud providers, payment processors, and communication platforms.
 
 ## Key Features
 
-### 🔐 40+ Detection Patterns
+### 🔐 36 Detection Patterns
 - **AWS**: Access Key, Secret Key, Session Token, Account ID
 - **GitHub**: Personal Access Token, OAuth Token, App Token, Install Token
 - **Stripe**: Secret Key, Publishable Key, Restricted API Key
@@ -19,7 +19,7 @@ Guardian Secrets Scanner is officially released on the VS Code Marketplace. This
 ### ⚡ Smart Detection Engine
 - Real-time scanning on file save and open
 - Entropy analysis for high-entropy strings (>4.5 bits)
-- Context-aware pattern matching
+- Pattern matching with entropy analysis
 - False positive reduction with intelligent filtering
 - Line number precision in findings
 
@@ -40,7 +40,7 @@ Guardian Secrets Scanner is officially released on the VS Code Marketplace. This
 
 ### 🏢 Enterprise Ready
 - Privacy-first architecture (no external services)
-- OWASP compliance for secret detection
+- Follows OWASP best practices for secret detection
 - MIT Licensed (open source, use commercially)
 - No dependencies (lightweight - 1.29 MB)
 - TypeScript strict mode for reliability
@@ -120,7 +120,7 @@ Guardian Secrets Scanner is officially released on the VS Code Marketplace. This
 
 ### v1.0.0 - Production Release
 - Initial marketplace release
-- 40+ secret detection patterns
+- 36 secret detection patterns
 - Suppression & audit logging system
 - Dashboard and tree view UI
 - Git pre-commit integration

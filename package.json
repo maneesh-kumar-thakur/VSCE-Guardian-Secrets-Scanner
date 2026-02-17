@@ -69,6 +69,15 @@
       {
         "command": "guardian.openSettings",
         "title": "Guardian: Open Settings"
+      },
+      {
+        "command": "guardian.suppressFinding",
+        "title": "Guardian: Suppress Finding (Mark as False Positive)",
+        "when": "false"
+      },
+      {
+        "command": "guardian.viewSuppressed",
+        "title": "Guardian: View Suppressed Findings"
       }
     ],
     "configuration": {

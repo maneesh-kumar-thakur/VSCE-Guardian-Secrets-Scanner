@@ -9,6 +9,7 @@ import { FindingsTreeProvider } from './treeProvider';
 import { DashboardProvider } from './dashboard';
 import { SettingsProvider } from './settingsProvider';
 import { GitIntegration } from './gitIntegration';
+import { SuppressionManager } from './suppressionManager';
 
 export function activate(context: vscode.ExtensionContext) {
   console.log('Guardian Secrets Scanner is now active');
@@ -17,8 +18,12 @@ export function activate(context: vscode.ExtensionContext) {
   const diagnosticCollection = vscode.languages.createDiagnosticCollection('guardian');
   context.subscriptions.push(diagnosticCollection);
 
+  // Initialize suppression manager
+  const workspaceRoot = vscode.workspace.workspaceFolders?.[0]?.uri.fsPath;
+  const suppressionManager = workspaceRoot ? new SuppressionManager(workspaceRoot) : undefined;
+
   // Initialize scanner
-  const scanner = new ScannerEngine(diagnosticCollection);
+  const scanner = new ScannerEngine(diagnosticCollection, suppressionManager);
 
   // Initialize Git integration
   const gitIntegration = new GitIntegration(scanner);
@@ -244,6 +249,73 @@ export function activate(context: vscode.ExtensionContext) {
     SettingsProvider.createOrShow(context.extensionUri);
   });
 
+  // Suppress a finding
+  const suppressFindingCommand = vscode.commands.registerCommand('guardian.suppressFinding', async (finding: Finding) => {
+    if (!suppressionManager) {
+      vscode.window.showErrorMessage('Suppression manager not available');
+      return;
+    }
+
+    const reason = await vscode.window.showInputBox({
+      title: 'Suppress Finding',
+      placeHolder: 'e.g., "False positive in test data"',
+      prompt: `Why are you suppressing this finding at ${finding.file}:${finding.line}?`,
+    });
+
+    if (reason) {
+      suppressionManager.suppress(finding.file, finding.line, finding.pattern, reason, finding.severity);
+      scanner.suppressFinding(finding, reason);
+      findingsProvider.refresh();
+      vscode.window.showInformationMessage('✓ Finding suppressed. Rescan workspace to update dashboard.');
+    }
+  });
+
+  // View suppressed findings
+  const viewSuppressedCommand = vscode.commands.registerCommand('guardian.viewSuppressed', async () => {
+    if (!suppressionManager) {
+      vscode.window.showErrorMessage('Suppression manager not available');
+      return;
+    }
+
+    const suppressions = suppressionManager.getAllSuppressions();
+    if (suppressions.length === 0) {
+      vscode.window.showInformationMessage('No suppressed findings');
+      return;
+    }
+
+    const items = suppressions.map(s => ({
+      label: `${s.pattern} at ${s.filePath}:${s.lineNumber}`,
+      description: s.reason,
+      suppression: s,
+    }));
+
+    const selected = await vscode.window.showQuickPick(items, {
+      title: 'Suppressed Findings',
+      canPickMany: false,
+    });
+
+    if (selected) {
+      const action = await vscode.window.showQuickPick(['View File', 'Unsuppress'], {
+        title: `${selected.label}`,
+      });
+
+      if (action === 'View File') {
+        const uri = vscode.Uri.file(selected.suppression.filePath);
+        const doc = await vscode.workspace.openTextDocument(uri);
+        const editor = await vscode.window.showTextDocument(doc);
+        const line = selected.suppression.lineNumber - 1;
+        editor.revealRange(new vscode.Range(line, 0, line, 0));
+      } else if (action === 'Unsuppress') {
+        suppressionManager.unsuppress(
+          selected.suppression.filePath,
+          selected.suppression.lineNumber,
+          selected.suppression.pattern
+        );
+        vscode.window.showInformationMessage('✓ Finding unsuppressed. Rescan to update findings.');
+      }
+    }
+  });
+
   // Register all commands
   context.subscriptions.push(
     scanWorkspaceCommand,
@@ -255,6 +327,10 @@ export function activate(context: vscode.ExtensionContext) {
     installPreCommitHookCommand,
     uninstallPreCommitHookCommand,
     scanStagedFilesCommand,
+    addGitignoreEntriesCommand,
+    openSettingsCommand,
+    suppressFindingCommand,
+    viewSuppressedCommand,
     addGitignoreEntriesCommand,
     openSettingsCommand,
     // Auto-scan on save if enabled

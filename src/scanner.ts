@@ -5,6 +5,7 @@
 
 import * as vscode from 'vscode';
 import { SecretPatternLibrary, SecretPattern } from './patterns';
+import { SuppressionManager } from './suppressionManager';
 
 export interface Finding {
   file: string;
@@ -24,10 +25,12 @@ export class ScannerEngine {
   private findings: Finding[] = [];
   private config: vscode.WorkspaceConfiguration;
   private diagnosticCollection: vscode.DiagnosticCollection;
+  private suppressionManager: SuppressionManager | null = null;
 
-  constructor(diagnosticCollection: vscode.DiagnosticCollection) {
+  constructor(diagnosticCollection: vscode.DiagnosticCollection, suppressionManager?: SuppressionManager) {
     this.diagnosticCollection = diagnosticCollection;
     this.config = vscode.workspace.getConfiguration('guardian');
+    this.suppressionManager = suppressionManager || null;
   }
 
   /**
@@ -144,7 +147,18 @@ export class ScannerEngine {
         }
 
         const fileFindings = await this.scanFile(file);
-        this.findings.push(...fileFindings);
+        
+        // Filter out suppressed findings
+        const unsuppressedFindings = fileFindings.filter(finding => {
+          if (!this.suppressionManager) return true;
+          return !this.suppressionManager.isSuppressed(
+            finding.file,
+            finding.line,
+            finding.pattern
+          );
+        });
+        
+        this.findings.push(...unsuppressedFindings);
 
         completed++;
         progress.report({
@@ -286,21 +300,40 @@ export class ScannerEngine {
   /**
    * Update diagnostics for a file
    */
-  private updateDiagnostics(uri: vscode.Uri, findings: Finding[]): void {
-    const diagnostics: vscode.Diagnostic[] = findings.map(finding => {
-      const range = new vscode.Range(
-        new vscode.Position(finding.line - 1, finding.column - 1),
-        new vscode.Position(finding.line - 1, finding.column + finding.match.length)
-      );
+  private updateDiagnostics(uri?: vscode.Uri, findings?: Finding[]): void {
+    if (uri && findings) {
+      // Update for a specific file
+      const diagnostics: vscode.Diagnostic[] = findings.map(finding => {
+        const range = new vscode.Range(
+          new vscode.Position(finding.line - 1, finding.column - 1),
+          new vscode.Position(finding.line - 1, finding.column + finding.match.length)
+        );
 
-      const severity = this.getSeverityLevel(finding.severity);
-      const entropyInfo = finding.entropy ? ` [Entropy: ${finding.entropy.toFixed(2)}]` : '';
-      const message = `${finding.description} (${finding.category})${entropyInfo}`;
+        const severity = this.getSeverityLevel(finding.severity);
+        const entropyInfo = finding.entropy ? ` [Entropy: ${finding.entropy.toFixed(2)}]` : '';
+        const message = `${finding.description} (${finding.category})${entropyInfo}`;
 
-      return new vscode.Diagnostic(range, message, severity);
-    });
+        return new vscode.Diagnostic(range, message, severity);
+      });
 
-    this.diagnosticCollection.set(uri, diagnostics);
+      this.diagnosticCollection.set(uri, diagnostics);
+    } else {
+      // Update all diagnostics for all findings
+      const findingsByFile = new Map<string, Finding[]>();
+      this.findings.forEach(finding => {
+        if (!findingsByFile.has(finding.file)) {
+          findingsByFile.set(finding.file, []);
+        }
+        findingsByFile.get(finding.file)!.push(finding);
+      });
+
+      // Clear all and set new
+      this.diagnosticCollection.clear();
+      findingsByFile.forEach((fileFindings, filePath) => {
+        const uri = vscode.Uri.file(filePath);
+        this.updateDiagnostics(uri, fileFindings);
+      });
+    }
   }
 
   /**
@@ -333,4 +366,36 @@ export class ScannerEngine {
   getFindings(): Finding[] {
     return this.findings;
   }
+
+  /**
+   * Set suppression manager
+   */
+  setSuppressionManager(suppressionManager: SuppressionManager): void {
+    this.suppressionManager = suppressionManager;
+  }
+
+  /**
+   * Get suppression manager
+   */
+  getSuppressionManager(): SuppressionManager | null {
+    return this.suppressionManager;
+  }
+
+  /**
+   * Suppress a finding
+   */
+  suppressFinding(finding: Finding, reason: string): void {
+    if (!this.suppressionManager) {
+      console.warn('Suppression manager not initialized');
+      return;
+    }
+    this.suppressionManager.suppress(finding.file, finding.line, finding.pattern, reason, finding.severity);
+    // Remove from findings
+    this.findings = this.findings.filter(f => 
+      !(f.file === finding.file && f.line === finding.line && f.pattern === finding.pattern)
+    );
+    // Update diagnostics
+    this.updateDiagnostics();
+  }
 }
+

@@ -9,4 +9,12 @@ vsc-extension-quickstart.md
 **/*.map
 **/*.ts
 !out/**/*.js
+!dist/**/*.js
 node_modules/**
+test-app/**
+confidential/**
+**/.env
+**/*.log
+.git/**
+BUILD.md
+docs/**

@@ -4,6 +4,14 @@
   "description": "Advanced security scanner that detects passwords, API keys, tokens, and sensitive data across all file types with entropy analysis and custom pattern detection",
   "version": "1.0.0",
   "publisher": "mt-vsce-guardian-publisher",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Guardian-Secrets-Scanner/guardian-secrets-scanner.git"
+  },
+  "homepage": "https://github.com/Guardian-Secrets-Scanner/guardian-secrets-scanner#readme",
+  "bugs": {
+    "url": "https://github.com/Guardian-Secrets-Scanner/guardian-secrets-scanner/issues"
+  },
   "icon": "resources/icon.png",
   "engines": {
     "vscode": "^1.85.0"

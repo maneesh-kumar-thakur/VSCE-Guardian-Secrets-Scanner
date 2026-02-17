@@ -1,0 +1,25 @@
+# Code Ownership & Security Policy
+
+# Guardian Secrets Scanner Repository Ownership
+
+# Primary maintainer - all code
+* @Maneesh-Relanto
+
+# Core security modules
+/src/scanner.ts @Maneesh-Relanto
+/src/patterns.ts @Maneesh-Relanto
+/src/suppressionLogger.ts @Maneesh-Relanto
+/src/suppressionManager.ts @Maneesh-Relanto
+
+# Configuration & build
+tsconfig.json @Maneesh-Relanto
+package.json @Maneesh-Relanto
+
+# Documentation
+README.md @Maneesh-Relanto
+SECURITY.md @Maneesh-Relanto
+TESTING.md @Maneesh-Relanto
+
+# Release & deployment
+.vscodeignore @Maneesh-Relanto
+CHANGELOG.md @Maneesh-Relanto

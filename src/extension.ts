@@ -238,6 +238,11 @@ export function activate(context: vscode.ExtensionContext) {
     await gitIntegration.addGitignoreEntries();
   });
 
+  // Open Guardian settings
+  const openSettingsCommand = vscode.commands.registerCommand('guardian.openSettings', async () => {
+    await vscode.commands.executeCommand('workbench.action.openSettings', 'guardian');
+  });
+
   // Register all commands
   context.subscriptions.push(
     scanWorkspaceCommand,
@@ -250,6 +255,7 @@ export function activate(context: vscode.ExtensionContext) {
     uninstallPreCommitHookCommand,
     scanStagedFilesCommand,
     addGitignoreEntriesCommand,
+    openSettingsCommand,
     // Auto-scan on save if enabled
     vscode.workspace.onDidSaveTextDocument(async (document) => {
       const config = vscode.workspace.getConfiguration('guardian');

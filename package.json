@@ -65,6 +65,10 @@
       {
         "command": "guardian.addGitignoreEntries",
         "title": "Guardian: Add Secret Patterns to .gitignore"
+      },
+      {
+        "command": "guardian.openSettings",
+        "title": "Guardian: Open Settings"
       }
     ],
     "configuration": {

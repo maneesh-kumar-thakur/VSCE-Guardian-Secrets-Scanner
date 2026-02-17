@@ -8,6 +8,7 @@ import { ScannerEngine, Finding } from './scanner';
 export class DashboardProvider {
   public static currentPanel: DashboardProvider | undefined;
   private readonly _panel: vscode.WebviewPanel;
+  private readonly _extensionUri: vscode.Uri;
   private _disposables: vscode.Disposable[] = [];
 
   public static createOrShow(extensionUri: vscode.Uri, scanner: ScannerEngine) {
@@ -36,9 +37,21 @@ export class DashboardProvider {
 
   private constructor(panel: vscode.WebviewPanel, extensionUri: vscode.Uri, scanner: ScannerEngine) {
     this._panel = panel;
+    this._extensionUri = extensionUri;
     this._update(scanner);
 
     this._panel.onDidDispose(() => this.dispose(), null, this._disposables);
+
+    // Handle messages from webview
+    this._panel.webview.onDidReceiveMessage(
+      (message) => {
+        if (message.command === 'openSettings') {
+          vscode.commands.executeCommand('guardian.openSettings');
+        }
+      },
+      null,
+      this._disposables
+    );
   }
 
   private _update(scanner: ScannerEngine) {
@@ -524,19 +537,99 @@ export class DashboardProvider {
       color: var(--vscode-editor-foreground);
       line-height: 1.6;
     }
+
+    .header-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .header-content {
+      flex: 1;
+    }
+
+    .logo {
+      width: 80px;
+      height: 80px;
+      border-radius: 12px;
+      object-fit: contain;
+      filter: drop-shadow(0 4px 12px rgba(244, 67, 54, 0.2));
+      animation: slideIn 0.5s ease-out;
+    }
+
+    .header-actions {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .btn {
+      padding: 10px 16px;
+      border: none;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    .btn-settings {
+      background: linear-gradient(135deg, #2196f3 0%, #1976d2 100%);
+      color: white;
+    }
+
+    .btn-settings:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 16px rgba(33, 150, 243, 0.4);
+    }
+
+    .btn-settings:active {
+      transform: translateY(0);
+    }
+
+    .btn-icon {
+      font-size: 16px;
+    }
   </style>
 </head>
 <body>
   <div class="header">
-    <h1>
-      <span class="shield-icon">🛡️</span>
-      Guardian Security Dashboard
-    </h1>
-    <p class="subtitle">Real-time security monitoring for your workspace</p>
+    <div class="header-container">
+      <img src="${this._getLogoUri(webview)}" alt="Guardian Logo" class="logo">
+      <div class="header-content">
+        <h1>
+          <span class="shield-icon">🛡️</span>
+          Guardian Security Dashboard
+        </h1>
+        <p class="subtitle">Real-time security monitoring for your workspace</p>
+      </div>
+      <div class="header-actions">
+        <button class="btn btn-settings" onclick="openSettings()">
+          <span class="btn-icon">⚙️</span>
+          Settings
+        </button>
+      </div>
+    </div>
   </div>
 
   ${findings.length === 0 ? this._getNoFindingsHtml() : this._getFindingsHtml(stats, findings)}
 
+  <script>
+    const vscode = acquireVsCodeApi();
+    
+    function openSettings() {
+      vscode.postMessage({
+        command: 'openSettings'
+      });
+    }
+  </script>
 </body>
 </html>`;
   }
@@ -726,5 +819,10 @@ export class DashboardProvider {
         </div>
       `;
     }).join('');
+  }
+
+  private _getLogoUri(webview: vscode.Webview): string {
+    const logoPath = vscode.Uri.joinPath(this._extensionUri, 'resources', 'icon.png');
+    return webview.asWebviewUri(logoPath).toString();
   }
 }

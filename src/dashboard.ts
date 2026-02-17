@@ -220,7 +220,7 @@ export class DashboardProvider {
 
     .stat-label {
       font-size: 13px;
-      color: #666666;
+      color: #555555;
       text-transform: uppercase;
       letter-spacing: 1.2px;
       font-weight: 700;
@@ -297,7 +297,13 @@ export class DashboardProvider {
     }
 
     .category-count {
-      color: var(--vscode-descriptionForeground);
+      color: #666666;
+      font-size: 13px;
+      font-weight: 600;
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
       font-size: 13px;
       font-weight: 500;
     }
@@ -431,7 +437,7 @@ export class DashboardProvider {
 
     .no-findings-subtitle {
       font-size: 16px;
-      color: var(--vscode-descriptionForeground);
+      color: #555555;
       font-weight: 500;
       margin-top: 10px;
       line-height: 1.6;
@@ -500,17 +506,19 @@ export class DashboardProvider {
 
     .finding-location {
       font-size: 12px;
-      color: var(--vscode-descriptionForeground);
+      color: #555555;
       font-family: monospace;
-      background: rgba(0, 0, 0, 0.2);
-      padding: 2px 6px;
+      background: #f0f0f0;
+      padding: 4px 8px;
       border-radius: 3px;
+      font-weight: 500;
     }
 
     .finding-description {
       font-size: 14px;
-      color: var(--vscode-descriptionForeground);
+      color: #444444;
       margin-bottom: 12px;
+      font-weight: 500;
     }
 
     .suggested-fix {

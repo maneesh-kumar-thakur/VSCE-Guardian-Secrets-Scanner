@@ -297,7 +297,7 @@ export class DashboardProvider {
     }
 
     .category-count {
-      color: #666666;
+      color: #444444;
       font-size: 13px;
       font-weight: 600;
       display: flex;
@@ -773,7 +773,7 @@ export class DashboardProvider {
 
       <div class="recommendations" style="background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.05) 100%); border-left-color: #667eea;">
         <h3 style="color: #667eea;">📊 Understanding Entropy Detection</h3>
-        <p style="font-size: 13px; line-height: 1.6; margin-bottom: 12px; color: #555;">
+        <p style="font-size: 13px; line-height: 1.6; margin-bottom: 12px; color: #333;">
           Guardian uses <strong>Shannon entropy</strong> to detect high-randomness strings that might be hidden secrets:
         </p>
         <ul style="list-style-type: none; padding: 0;">
@@ -781,7 +781,7 @@ export class DashboardProvider {
           <li style="margin-bottom: 8px; font-size: 13px;"><strong>Medium Entropy (~3.5)</strong>: "password123" - Predictable pattern</li>
           <li style="font-size: 13px;"><strong>High Entropy (~4.5+)</strong>: "K7x9Mq2Wp5Nz8Rt3" - ⚠️ Likely a secret!</li>
         </ul>
-        <p style="font-size: 12px; margin-top: 12px; color: #666; font-style: italic;">
+        <p style="font-size: 12px; margin-top: 12px; color: #333; font-style: italic;">
           💡 Adjust entropy threshold in Settings (3.0-6.0) to control sensitivity
         </p>
       </div>

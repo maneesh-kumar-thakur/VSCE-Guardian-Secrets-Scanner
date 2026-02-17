@@ -293,30 +293,49 @@ If Guardian finds secrets:
 
 ### Managing False Positives
 
-Guardian allows you to suppress findings that are known to be false positives:
+Guardian provides a **comprehensive suppression system with audit tracking**:
 
 **Suppress a Finding**:
 ```bash
+# Via Tree View (Recommended)
+Right-click finding in Guardian Security sidebar 
+→ "Suppress Finding (Mark as False Positive)"
+
 # Via Command Palette
 Ctrl+Shift+P → "Guardian: Suppress Finding"
-# or right-click a finding in the tree view
 ```
-- Provide a reason for suppression (e.g., "Test data", "Demo credentials")
-- Finding is removed from current results and stored in `.vscode/guardian-suppressions.json`
+- Provide a reason (e.g., "Mock AWS key for unit tests")
+- Suppression is stored with your username and timestamp
+- Automatically logged to audit trail
 
-**View and Manage Suppressions**:
+**View All Suppressions**:
 ```bash
-# Via Command Palette
 Ctrl+Shift+P → "Guardian: View Suppressed Findings"
 ```
 - See all suppressed findings with reasons
-- Option to view the file at the suppression location
-- Option to unsuppress findings that should be checked again
+- Option to view the file
+- Option to unsuppress findings
 
-**Suppression Storage**:
-- Stored in `.vscode/guardian-suppressions.json` (per-workspace)
-- Can be shared via version control or ignored as preferred
-- Includes metadata: file path, line number, pattern, reason, timestamp
+**Audit & Compliance**:
+```bash
+# View suppression statistics
+Ctrl+Shift+P → "Guardian: View Suppression Report"
+
+# Review suppressions pending >30 days
+Ctrl+Shift+P → "Guardian: Review Pending Suppressions"
+```
+
+**Storage & Audit Trail**:
+- ✅ **Working storage**: `.vscode/guardian-suppressions.json` (workspace-local)
+- ✅ **Audit log**: `SUPPRESSIONS_AUDIT.md` (git-trackable)
+- ✅ **Metadata**: File path, line number, pattern, reason, timestamp, username
+- ✅ **History**: Complete record of all suppress/unsuppress/review actions
+
+**For Team & Compliance**:
+- Commit `SUPPRESSIONS_AUDIT.md` to enable team visibility
+- All suppressions tied to username for accountability
+- Historical audit trail for security reviews
+- See [SUPPRESSION_AUDIT_GUIDE.md](SUPPRESSION_AUDIT_GUIDE.md) for full details
 
 ## 🎨 Custom Patterns
 

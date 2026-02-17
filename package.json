@@ -77,6 +77,14 @@
       {
         "command": "guardian.viewSuppressed",
         "title": "Guardian: View Suppressed Findings"
+      },
+      {
+        "command": "guardian.suppressionReport",
+        "title": "Guardian: View Suppression Report (with Statistics)"
+      },
+      {
+        "command": "guardian.reviewPending",
+        "title": "Guardian: Review Pending Suppressions (30+ days old)"
       }
     ],
     "configuration": {

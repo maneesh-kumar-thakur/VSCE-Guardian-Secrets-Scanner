@@ -324,6 +324,40 @@ export function activate(context: vscode.ExtensionContext) {
     }
   });
 
+  // View suppression report
+  const suppressionReportCommand = vscode.commands.registerCommand('guardian.suppressionReport', async () => {
+    if (!suppressionManager) {
+      vscode.window.showErrorMessage('Suppression manager not available');
+      return;
+    }
+
+    const report = suppressionManager.getSummaryReport();
+    const doc = await vscode.workspace.openTextDocument({
+      content: report,
+      language: 'markdown',
+    });
+    await vscode.window.showTextDocument(doc);
+    vscode.window.showInformationMessage('✓ Suppression report generated');
+  });
+
+  // Review pending suppressions (older than 30 days)
+  const reviewPendingCommand = vscode.commands.registerCommand('guardian.reviewPending', async () => {
+    if (!suppressionManager) {
+      vscode.window.showErrorMessage('Suppression manager not available');
+      return;
+    }
+
+    const pending = suppressionManager.getPendingReview();
+    if (pending.length === 0) {
+      vscode.window.showInformationMessage('✓ No pending suppressions to review');
+      return;
+    }
+
+    vscode.window.showInformationMessage(
+      `⚠️ ${pending.length} suppression(s) pending review (older than 30 days). Please open audit log to review.`
+    );
+  });
+
   // Register all commands
   context.subscriptions.push(
     scanWorkspaceCommand,
@@ -339,8 +373,8 @@ export function activate(context: vscode.ExtensionContext) {
     openSettingsCommand,
     suppressFindingCommand,
     viewSuppressedCommand,
-    addGitignoreEntriesCommand,
-    openSettingsCommand,
+    suppressionReportCommand,
+    reviewPendingCommand,
     // Auto-scan on save if enabled
     vscode.workspace.onDidSaveTextDocument(async (document) => {
       const config = vscode.workspace.getConfiguration('guardian');

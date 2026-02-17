@@ -14,15 +14,39 @@ export interface SuppressionRule {
   reason: string;
   timestamp: number;
   severity: string;
+  suppressedBy?: string;
+  reviewStatus?: 'pending' | 'reviewed' | 'expired';
+  expiryDate?: number;
+}
+
+export interface AuditLogEntry {
+  action: 'suppress' | 'unsuppress' | 'review';
+  ruleId: string;
+  filePath: string;
+  reason?: string;
+  timestamp: number;
+  user?: string;
+  comment?: string;
 }
 
 export class SuppressionManager {
   private suppressionFile: string;
+  private auditLogFile: string;
   private suppressions: Map<string, SuppressionRule> = new Map();
+  private auditLog: AuditLogEntry[] = [];
 
   constructor(workspaceRoot: string) {
     this.suppressionFile = path.join(workspaceRoot, '.vscode', 'guardian-suppressions.json');
+    this.auditLogFile = path.join(workspaceRoot, 'SUPPRESSIONS_AUDIT.md');
     this.loadSuppressions();
+    this.loadAuditLog();
+  }
+
+  /**
+   * Get current username from environment
+   */
+  private getUsername(): string {
+    return process.env.USERNAME || process.env.USER || 'unknown';
   }
 
   /**
@@ -45,6 +69,21 @@ export class SuppressionManager {
   }
 
   /**
+   * Load audit log from disk
+   */
+  private loadAuditLog(): void {
+    try {
+      if (fs.existsSync(this.auditLogFile)) {
+        const content = fs.readFileSync(this.auditLogFile, 'utf-8');
+        // Parse markdown to extract audit entries - simplified for this version
+        console.log('Audit log exists for reference');
+      }
+    } catch (error) {
+      console.error('Error loading audit log:', error);
+    }
+  }
+
+  /**
    * Save suppressions to disk
    */
   private saveSuppressions(): void {
@@ -57,6 +96,36 @@ export class SuppressionManager {
       fs.writeFileSync(this.suppressionFile, JSON.stringify(rules, null, 2), 'utf-8');
     } catch (error) {
       console.error('Error saving suppressions:', error);
+    }
+  }
+
+  /**
+   * Log action to audit file (markdown format for git tracking)
+   */
+  private logToAudit(entry: AuditLogEntry): void {
+    try {
+      const timestamp = new Date(entry.timestamp).toISOString();
+      const user = entry.user || this.getUsername();
+      let logLine = `- **${entry.action.toUpperCase()}** | ${entry.filePath}:${entry.ruleId.split(':')[1]} | ${timestamp} | User: ${user}`;
+      
+      if (entry.reason) {
+        logLine += ` | Reason: ${entry.reason}`;
+      }
+      if (entry.comment) {
+        logLine += ` | Comment: ${entry.comment}`;
+      }
+      logLine += '\n';
+
+      // Append to audit file
+      if (!fs.existsSync(this.auditLogFile)) {
+        const header = `# Guardian Suppressions Audit Log\n\nThis file tracks all finding suppressions for security and compliance purposes.\n\n`;
+        fs.writeFileSync(this.auditLogFile, header);
+      }
+
+      fs.appendFileSync(this.auditLogFile, logLine, 'utf-8');
+      this.auditLog.push(entry);
+    } catch (error) {
+      console.error('Error writing audit log:', error);
     }
   }
 
@@ -80,6 +149,7 @@ export class SuppressionManager {
    */
   suppress(filePath: string, lineNumber: number, pattern: string, reason: string, severity: string): SuppressionRule {
     const id = this.generateId(filePath, lineNumber, pattern);
+    const username = this.getUsername();
     const rule: SuppressionRule = {
       id,
       filePath,
@@ -88,19 +158,43 @@ export class SuppressionManager {
       reason,
       timestamp: Date.now(),
       severity,
+      suppressedBy: username,
+      reviewStatus: 'pending',
     };
     this.suppressions.set(id, rule);
     this.saveSuppressions();
+
+    // Log to audit file
+    this.logToAudit({
+      action: 'suppress',
+      ruleId: id,
+      filePath,
+      reason,
+      timestamp: Date.now(),
+      user: username,
+    });
+
     return rule;
   }
 
   /**
    * Unsuppress a finding
    */
-  unsuppress(filePath: string, lineNumber: number, pattern: string): void {
+  unsuppress(filePath: string, lineNumber: number, pattern: string, comment?: string): void {
     const id = this.generateId(filePath, lineNumber, pattern);
+    const username = this.getUsername();
     this.suppressions.delete(id);
     this.saveSuppressions();
+
+    // Log to audit
+    this.logToAudit({
+      action: 'unsuppress',
+      ruleId: id,
+      filePath,
+      timestamp: Date.now(),
+      user: username,
+      comment,
+    });
   }
 
   /**
@@ -161,5 +255,78 @@ export class SuppressionManager {
   removeSuppression(id: string): void {
     this.suppressions.delete(id);
     this.saveSuppressions();
+  }
+
+  /**
+   * Get suppression summary for reporting
+   */
+  getSummaryReport(): string {
+    const stats = this.getStats();
+    const totalByUser = new Map<string, number>();
+    const totalByFile = new Map<string, number>();
+
+    this.suppressions.forEach(rule => {
+      const user = rule.suppressedBy || 'unknown';
+      totalByUser.set(user, (totalByUser.get(user) || 0) + 1);
+      totalByFile.set(rule.filePath, (totalByFile.get(rule.filePath) || 0) + 1);
+    });
+
+    let report = `# Suppression Summary Report\n\n`;
+    report += `**Generated:** ${new Date().toISOString()}\n\n`;
+    report += `## Overall Statistics\n`;
+    report += `- Total Suppressions: ${stats.totalSuppressions}\n`;
+    report += `- Critical: ${stats.byCritical}\n`;
+    report += `- High: ${stats.byHigh}\n`;
+    report += `- Medium: ${stats.byMedium}\n`;
+    report += `- Low: ${stats.byLow}\n\n`;
+
+    if (totalByUser.size > 0) {
+      report += `## By User\n`;
+      totalByUser.forEach((count, user) => {
+        report += `- ${user}: ${count}\n`;
+      });
+      report += `\n`;
+    }
+
+    if (totalByFile.size > 0) {
+      report += `## By File\n`;
+      Array.from(totalByFile.entries())
+        .sort((a, b) => b[1] - a[1])
+        .forEach(([file, count]) => {
+          report += `- ${file}: ${count}\n`;
+        });
+    }
+
+    return report;
+  }
+
+  /**
+   * Mark suppression as reviewed
+   */
+  markAsReviewed(id: string, comment?: string): void {
+    const rule = this.suppressions.get(id);
+    if (rule) {
+      rule.reviewStatus = 'reviewed';
+      this.saveSuppressions();
+
+      this.logToAudit({
+        action: 'review',
+        ruleId: id,
+        filePath: rule.filePath,
+        timestamp: Date.now(),
+        user: this.getUsername(),
+        comment,
+      });
+    }
+  }
+
+  /**
+   * Get pending review suppressions (older than 30 days)
+   */
+  getPendingReview(): SuppressionRule[] {
+    const thirtyDaysAgo = Date.now() - (30 * 24 * 60 * 60 * 1000);
+    return Array.from(this.suppressions.values()).filter(
+      rule => rule.reviewStatus === 'pending' && rule.timestamp < thirtyDaysAgo
+    );
   }
 }

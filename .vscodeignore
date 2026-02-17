@@ -8,8 +8,6 @@ vsc-extension-quickstart.md
 **/.eslintrc.json
 **/*.map
 **/*.ts
-dist/test/**
-!dist/**/*.js
 node_modules/**
 test-app/**
 confidential/**
@@ -18,3 +16,4 @@ confidential/**
 .git/**
 BUILD.md
 docs/**
+dist/test/**

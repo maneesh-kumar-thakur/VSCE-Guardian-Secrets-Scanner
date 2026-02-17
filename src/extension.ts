@@ -7,6 +7,7 @@ import * as vscode from 'vscode';
 import { ScannerEngine, Finding } from './scanner';
 import { FindingsTreeProvider } from './treeProvider';
 import { DashboardProvider } from './dashboard';
+import { SettingsProvider } from './settingsProvider';
 import { GitIntegration } from './gitIntegration';
 
 export function activate(context: vscode.ExtensionContext) {
@@ -240,7 +241,7 @@ export function activate(context: vscode.ExtensionContext) {
 
   // Open Guardian settings
   const openSettingsCommand = vscode.commands.registerCommand('guardian.openSettings', async () => {
-    await vscode.commands.executeCommand('workbench.action.openSettings', 'guardian');
+    SettingsProvider.createOrShow(context.extensionUri);
   });
 
   // Register all commands

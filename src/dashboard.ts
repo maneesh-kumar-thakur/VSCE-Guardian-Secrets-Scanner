@@ -293,7 +293,7 @@ export class DashboardProvider {
       font-weight: 700;
       margin-bottom: 10px;
       font-size: 15px;
-      color: var(--vscode-editor-foreground);
+      color: #222222;
     }
 
     .category-count {
@@ -374,7 +374,7 @@ export class DashboardProvider {
       margin-bottom: 10px;
       font-size: 14px;
       font-weight: 500;
-      color: var(--vscode-editor-foreground);
+      color: #333333;
       transition: all 0.2s;
     }
 
@@ -455,7 +455,7 @@ export class DashboardProvider {
       padding-bottom: 12px;
       border-bottom: 3px solid;
       border-image: linear-gradient(90deg, #ff6b6b, #ff9800) 1;
-      color: var(--vscode-editor-foreground);
+      color: #222222;
     }
 
     .finding-item {
@@ -501,7 +501,7 @@ export class DashboardProvider {
     .finding-pattern {
       font-weight: 700;
       font-size: 15px;
-      color: var(--vscode-editor-foreground);
+      color: #333333;
     }
 
     .finding-location {
@@ -542,7 +542,7 @@ export class DashboardProvider {
 
     .suggested-fix-text {
       font-size: 14px;
-      color: var(--vscode-editor-foreground);
+      color: #333333;
       line-height: 1.6;
     }
 

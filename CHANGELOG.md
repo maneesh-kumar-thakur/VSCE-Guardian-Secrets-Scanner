@@ -5,49 +5,127 @@ All notable changes to the Guardian Secrets Scanner extension will be documented
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.2.0] - 2026-02-17
-
-### Added
-- **False Positive Suppression System** - Mark findings as false positives and manage suppressions
-  - Suppress individual findings with human-readable reason
-  - View suppressed findings with filtering and unsuppress options
-  - Suppressions stored in `.vscode/guardian-suppressions.json` (persists across sessions)
-  - Commands: `Guardian: Suppress Finding` and `Guardian: View Suppressed Findings`
-  - Suppression metadata includes: file path, line number, pattern, reason, timestamp
-  - Statistics tracking for suppressed findings by severity
-
-## [1.1.0] - 2026-02-17
-
-### Added
-- **Custom Light-Themed Settings UI** - Intuitive settings interface matching the dashboard
-  - Organized into 4 main sections: Detection, Scanning, Custom Patterns, Git Security
-  - Interactive controls: checkboxes, sliders, array inputs, severity selector
-  - Real-time inline help and descriptions
-  - Global VS Code configuration persistence
-
-### Improved
-- **UI Animations and Polish** - Smooth transitions and visual feedback
-  - Cascading animations for settings sections
-  - Enhanced hover states with better shadows
-  - Cubic-bezier transitions for smoother motion
-  - Better button feedback and visual hierarchy
-
-### Improved
-- **Dashboard Text Contrast** - Fixed all gray text issues for better readability on light backgrounds
-- **Documentation** - Updated all user-facing docs with new settings UI instructions
-
 ## [1.0.0] - 2026-02-17
 
-### Added
-- **Initial Release** of Guardian Secrets Scanner for VS Code
-- **40+ Secret Detection Patterns** including:
-  - AWS credentials (Access Keys, Secret Keys, Session Tokens)
-  - Cloud provider secrets (Azure, Google Cloud, Alibaba)
-  - API keys and tokens (Generic, Bearer, JWT)
-  - Database credentials (MongoDB, MySQL, PostgreSQL, Redis)
-  - Private cryptographic keys (RSA, SSH, PGP)
-  - Payment service credentials (Stripe, PayPal, Square)
-  - Communication service tokens (Slack, Twilio, Discord)
+### ✨ Initial Public Release
+
+**Guardian Secrets Scanner v1.0.0** - Professional-grade secrets detection for VS Code with comprehensive security features, audit logging, and false positive management.
+
+### 🔍 Core Scanning Features
+- **Advanced Secret Detection**: 40+ patterns for detecting passwords, API keys, tokens, and sensitive data
+  - Cloud credentials (AWS, Azure, Google Cloud, Alibaba)
+  - API keys and bearer tokens (Generic, JWT, OAuth)
+  - Database credentials (MongoDB, MySQL, PostgreSQL, Redis, SQL Server)
+  - Private cryptographic keys (RSA, SSH, PGP, EC, DSA)
+  - Payment service credentials (Stripe, PayPal, Square, Twilio)
+  - Communication tokens (Slack, Discord, TeamSpeak)
+  - AWS, Azure, GCP tokens, keys, and connection strings
+  
+- **Entropy-Based Detection**: Shannon entropy calculation to identify high-randomness strings
+- **Multi-File Type Support**: Scans code files, configs, environment files, scripts, and text files
+- **Real-Time Scanning**: Automatic scanning on file save and optional scanning on file open
+- **In-Editor Diagnostics**: Real-time inline security warnings with severity levels
+
+### 🎨 User Interface
+- **Security Dashboard**: Visual overview of findings with severity grouping
+  - Real-time summary statistics (critical, high, medium, low)
+  - Grouped findings by severity and file
+  - One-click actions and detailed context
+  - Smooth animations and professional styling
+  
+- **Settings UI**: Intuitive light-themed configuration interface
+  - Detection strategies and pattern configuration
+  - Scanning behavior and performance tuning
+  - Custom pattern management
+  - Git integration settings
+  
+- **Tree View Integration**: Security findings organized in VS Code sidebar
+  - Hierarchical organization by severity and file
+  - Quick navigation to source locations
+  - Context menu for actions
+
+### 🔐 False Positive Management
+- **Suppression System**: Mark findings as false positives with audit trail
+  - Tree view context menu: Right-click → "Suppress Finding"
+  - Command palette: `Guardian: Suppress Finding`
+  - Human-readable reason entry
+  - Persistent, workspace-specific suppression rules
+  
+- **Comprehensive Audit Logging**
+  - `SUPPRESSIONS_AUDIT.md`: Git-trackable audit trail with all suppressions
+  - `SUPPRESSIONS.log`: Structured JSON log with full metadata
+  - Automatic user tracking (auto-detected from environment)
+  - Timestamp tracking (date, time, epoch)
+  - Project name and machine hostname logging
+  
+- **Suppression Management Commands**
+  - View Suppressed Findings: Browse and manage all suppressions
+  - Suppression Report: Statistics by user, file, and severity
+  - Review Pending: Alert for suppressions older than 30 days
+  - View Suppression Log: Formatted markdown report with activity history
+
+### 🔗 Git Integration
+- **Pre-Commit Hook**: Automatically block commits containing secrets
+  - Critical findings: Hard block
+  - High findings: Configurable (warn or block)
+  - Medium/Low: Info only
+  
+- **Staged File Scanning**: `Guardian: Scan Staged Files` command
+  - Check for secrets before committing
+  - Works with git staging workflow
+  
+- **Git Ignore Management**: `Guardian: Add Secret Patterns to .gitignore`
+
+### ⚙️ Configuration
+- **Guardian Settings**: Full control over scanning behavior
+  - `guardian.scanOnSave`: Real-time scanning (default: true)
+  - `guardian.scanOnOpen`: Scan when opening files (default: false)
+  - `guardian.enableEntropyAnalysis`: Use entropy detection (default: true)
+  - `guardian.minEntropyScore`: Minimum entropy threshold (default: 3.5)
+  - Pre-commit hook integration with severity-based blocking
+  - Custom pattern definition and management
+  
+- **Command Palette Integration**: 20+ commands for all operations
+  - Scanning, reporting, configuration, and management commands
+  - Settings access and installation commands
+
+### 📊 Reporting & Analysis
+- **Security Reports**: Export findings as structured reports
+  - `Guardian: Export Security Report` command
+  - Markdown format with severity breakdown
+  - Remediation guidance included
+  
+- **Suppression Analytics**
+  - Summary statistics (total, by action type)
+  - Activity breakdown by user and project
+  - Recent activity table
+  - Export to CSV for external analysis
+
+### 📚 Documentation
+- **Comprehensive Documentation**
+  - README.md: Features, setup, and quick start
+  - USAGE.md: Detailed usage guide and configuration
+  - SUPPRESSION_AUDIT_GUIDE.md: Audit logging and compliance
+  - TEST_SUPPRESSION.md: Testing guide with examples
+  - GIT_BLOCKING_STRATEGY.md: Pre-commit hook configuration
+  - REMEDIATION.md: Fix guidance for detected secrets
+  - BUILD.md: Development setup
+
+### 🛡️ Security & Privacy
+- **100% Local Processing**: All scanning happens on your machine
+- **Zero Telemetry**: No data collection or transmission
+- **Open Source**: Complete transparency and auditability
+- **Privacy by Design**: Secret masking in logs and UI
+
+### ✅ Quality Assurance
+- TypeScript with strict compilation
+- Unit tests for core functionality
+- Professional error handling
+- Performance optimized for large codebases
+
+## [1.0.0-beta] - Previous Development
+- All features from development builds
+- Ready for public release
   - Email service keys (SendGrid, Mailgun, Mailchimp)
   - Package manager tokens (NPM, PyPI, Gem, Maven)
   - Source control tokens (GitHub, GitLab, Bitbucket)

@@ -24,9 +24,9 @@ const mongoUrl = 'mongodb+srv://admin:P@ssw0rd@cluster0.example.com';
 "@ | Out-File "test_secrets/db-config.js"
 
 @"
-# API tokens
-API_TOKEN=ghp_1234567890abcdefghijklmnopqrstuvwxyz
-SLACK_WEBHOOK=https://hooks.slack.com/services/T00000000/B00000000/XXXXXXXXXXXXXXXXXXXXXXXX
+# API tokens (example format, not real credentials)
+API_TOKEN=ghp_[REDACTED_32_CHAR_TOKEN_STRING_HERE]
+SLACK_WEBHOOK=https://hooks.slack.com/services/T[REDACTED]/B[REDACTED]/[REDACTED]
 "@ | Out-File "test_secrets/.env"
 ```
 

@@ -274,7 +274,7 @@ This automatically blocks commits containing secrets:
 Ctrl+Shift+P → "Guardian: Scan Staged Files"
 ```
 
-See [GIT_BLOCKING_STRATEGY.md](GIT_BLOCKING_STRATEGY.md) for complete details.
+For detailed git configuration, see the Settings section above.
 
 ### Prevention
 1. **Use Environment Variables**: Store secrets in `.env` files (add to `.gitignore`)
@@ -343,7 +343,7 @@ Ctrl+Shift+P → "Guardian: Export Security Report"
 - Commit `SUPPRESSIONS_AUDIT.md` to enable team visibility
 - All suppressions tied to username for accountability
 - Historical audit trail for security reviews
-- See [SUPPRESSION_AUDIT_GUIDE.md](SUPPRESSION_AUDIT_GUIDE.md) for full details
+See [SUPPRESSION_AUDIT_GUIDE.md](SUPPRESSION_AUDIT_GUIDE.md) for full details on audit logging.
 
 ## 🎨 Custom Patterns
 
@@ -385,7 +385,7 @@ Guardian includes comprehensive unit tests covering:
 - Pattern detection accuracy
 - Entropy calculation
 - Scanner functionality
-- Git integration
+- False positive filtering
 
 ```bash
 # Run tests
@@ -393,7 +393,7 @@ npm install
 npm test
 ```
 
-See [TESTING.md](TESTING.md) for detailed testing documentation.
+Tests are located in `src/test/` directory.
 
 ## 🔒 Security & Privacy Guarantees
 
@@ -448,28 +448,28 @@ See [TESTING.md](TESTING.md) for detailed testing documentation.
 Guardian can **support your compliance efforts** for security frameworks:
 
 **SOC 2 Type II**:
-- Provides evidence of secret detection controls
-- Generates audit trails of security scans
-- Supports documented remediation processes
+- ✅ Provides evidence of secret detection controls (36+ patterns)
+- ✅ Generates audit trails of security scans and suppressions
+- ✅ Supports documented remediation with suggested fixes
 - *Note: Guardian is ONE control among many required for SOC 2 certification*
 
 **PCI DSS**:
-- Helps prevent credit card data in code
-- Protects payment service credentials
-- Supports secure development practices
-- *Note: Guardian supports PCI DSS Requirement 6.2 (secure coding practices)*
+- ✅ Protects payment service credentials (Stripe, PayPal, Twilio keys)
+- ✅ Supports secure development practices with pre-commit hooks
+- ✅ Provides audit logging for compliance documentation
+- *Note: Guardian detects payment API keys, not credit card numbers. Use additional tools for card data detection.*
 
 **GDPR**:
-- Helps prevent PII exposure in code
-- Local data processing only (no cross-border transfer)
-- No telemetry or data collection
-- *Note: Guardian supports privacy by design, not GDPR certification*
+- ✅ Supports privacy by design (100% local processing, no data transfer)
+- ✅ No telemetry or data collection
+- ⚠️ Guardian detects API credentials, NOT personal data patterns (email, phone, SSN)
+- *Note: For PII detection, combine with dedicated PII scanning tools*
 
 **HIPAA**:
-- Helps protect health data by preventing exposure in code
-- Supports secure credential management
-- Provides audit trail documentation
-- *Note: HIPAA compliance requires comprehensive controls beyond Guardian*
+- ✅ Supports secure credential management for healthcare integrations
+- ✅ Provides audit trail documentation for compliance reviews
+- ⚠️ Guardian detects credentials to health systems, NOT health data/PHI patterns
+- *Note: HIPAA requires comprehensive controls beyond secret detection*
 
 **Important**: Use Guardian as part of a comprehensive compliance strategy. Guardian alone does NOT guarantee compliance - consult with your compliance/security teams for full requirements.
 
@@ -522,10 +522,9 @@ While Guardian is comprehensive, no automated tool catches 100% of secrets. Alwa
 
 - **Documentation**: 
   - [README](README.md) - Feature overview (this file)
-  - [Usage Guide](USAGE.md) - Complete usage instructions
   - [Security Policy](SECURITY.md) - Security vulnerabilities & reporting
-  - [Testing Guide](TESTING.md) - Testing and validation
-  - [Build Guide](BUILD.md) - Development and building
+  - [Suppression Guide](SUPPRESSION_AUDIT_GUIDE.md) - Audit logging and suppressions
+  - [Changelog](CHANGELOG.md) - Version history and updates
 
 - **Report Bugs**: [GitHub Issues](https://github.com/Maneesh-Relanto/VSCE-Guardian-Secrets-Scanner/issues)
   - Include Guardian version, VS Code version, file type
@@ -561,7 +560,7 @@ While Guardian is comprehensive, no automated tool catches 100% of secrets. Alwa
 **Too many false positives?**
 - Increase `guardian.entropyThreshold` (higher = stricter detection)
 - Suppress findings with reasons for team visibility
-- See [USAGE.md](USAGE.md) for detailed suppression options
+- Add patterns to `guardian.excludePatterns` for false positive categories
 
 **Pre-commit hook issues?**
 - Verify Git is initialized in workspace

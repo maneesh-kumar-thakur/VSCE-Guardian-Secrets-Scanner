@@ -131,6 +131,46 @@ export class SettingsProvider {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Guardian Settings</title>
   <style>
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+
+    @keyframes slideInLeft {
+      from {
+        opacity: 0;
+        transform: translateX(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    @keyframes pulseGlow {
+      0%, 100% {
+        box-shadow: 0 0 0 0 rgba(76, 175, 80, 0.3);
+      }
+      50% {
+        box-shadow: 0 0 0 8px rgba(76, 175, 80, 0);
+      }
+    }
+
     * {
       margin: 0;
       padding: 0;
@@ -143,6 +183,7 @@ export class SettingsProvider {
       color: #222222;
       padding: 30px;
       min-height: 100vh;
+      animation: fadeIn 0.3s ease-out;
     }
 
     .settings-container {
@@ -155,6 +196,7 @@ export class SettingsProvider {
       padding-bottom: 20px;
       border-bottom: 3px solid;
       border-image: linear-gradient(90deg, #4caf50, #2196f3) 1;
+      animation: slideIn 0.4s ease-out;
     }
 
     .settings-header h1 {
@@ -179,12 +221,31 @@ export class SettingsProvider {
       border-radius: 12px;
       padding: 24px;
       margin-bottom: 24px;
-      transition: all 0.3s ease;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      animation: slideIn 0.5s ease-out;
+      animation-fill-mode: both;
+    }
+
+    .settings-section:nth-child(2) {
+      animation-delay: 0.1s;
+    }
+
+    .settings-section:nth-child(3) {
+      animation-delay: 0.2s;
+    }
+
+    .settings-section:nth-child(4) {
+      animation-delay: 0.3s;
+    }
+
+    .settings-section:nth-child(5) {
+      animation-delay: 0.4s;
     }
 
     .settings-section:hover {
       border-color: rgba(76, 175, 80, 0.3);
-      box-shadow: 0 4px 12px rgba(76, 175, 80, 0.1);
+      box-shadow: 0 8px 24px rgba(76, 175, 80, 0.12);
+      transform: translateY(-2px);
     }
 
     .section-title {
@@ -199,12 +260,31 @@ export class SettingsProvider {
 
     .section-title .icon {
       font-size: 20px;
+      animation: slideInLeft 0.4s ease-out;
     }
 
     .setting-item {
       margin-bottom: 20px;
       padding-bottom: 20px;
       border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+      animation: slideIn 0.5s ease-out;
+      animation-fill-mode: both;
+    }
+
+    .setting-item:nth-child(1) {
+      animation-delay: 0s;
+    }
+
+    .setting-item:nth-child(2) {
+      animation-delay: 0.05s;
+    }
+
+    .setting-item:nth-child(3) {
+      animation-delay: 0.1s;
+    }
+
+    .setting-item:nth-child(4) {
+      animation-delay: 0.15s;
     }
 
     .setting-item:last-child {
@@ -234,12 +314,19 @@ export class SettingsProvider {
       width: 100%;
       padding: 10px 12px;
       border: 1.5px solid rgba(0, 0, 0, 0.12);
-      border-radius: 6px;
+      border-radius: 8px;
       font-size: 14px;
       font-family: inherit;
       color: #333333;
       background: #ffffff;
-      transition: all 0.2s;
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .setting-input:hover:not(:disabled),
+    .setting-select:hover:not(:disabled),
+    .setting-textarea:hover:not(:disabled) {
+      border-color: rgba(76, 175, 80, 0.5);
+      background: #fafbfb;
     }
 
     .setting-input:focus,
@@ -247,11 +334,54 @@ export class SettingsProvider {
     .setting-textarea:focus {
       outline: none;
       border-color: #4caf50;
-      box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
+      box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.15), inset 0 1px 2px rgba(0, 0, 0, 0.04);
+      background: #ffffff;
     }
 
     .setting-input[type="number"] {
       max-width: 150px;
+    }
+
+    .setting-input[type="range"] {
+      width: 100%;
+      height: 6px;
+      border-radius: 3px;
+      background: linear-gradient(90deg, rgba(76, 175, 80, 0.3), rgba(33, 150, 243, 0.3));
+      outline: none;
+      -webkit-appearance: none;
+    }
+
+    .setting-input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #4caf50, #45a049);
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(76, 175, 80, 0.3);
+      transition: all 0.2s;
+    }
+
+    .setting-input[type="range"]::-webkit-slider-thumb:hover {
+      transform: scale(1.15);
+      box-shadow: 0 4px 12px rgba(76, 175, 80, 0.4);
+    }
+
+    .setting-input[type="range"]::-moz-range-thumb {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #4caf50, #45a049);
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(76, 175, 80, 0.3);
+      border: none;
+      transition: all 0.2s;
+    }
+
+    .setting-input[type="range"]::-moz-range-thumb:hover {
+      transform: scale(1.15);
+      box-shadow: 0 4px 12px rgba(76, 175, 80, 0.4);
     }
 
     .checkbox-container {
@@ -259,6 +389,11 @@ export class SettingsProvider {
       align-items: center;
       gap: 12px;
       margin-top: 10px;
+      transition: all 0.2s;
+    }
+
+    .checkbox-container:hover {
+      transform: translateX(2px);
     }
 
     .checkbox-container input[type="checkbox"] {
@@ -266,6 +401,15 @@ export class SettingsProvider {
       height: 18px;
       cursor: pointer;
       accent-color: #4caf50;
+      transition: all 0.2s;
+    }
+
+    .checkbox-container input[type="checkbox"]:hover {
+      transform: scale(1.1);
+    }
+
+    .checkbox-container input[type="checkbox"]:checked {
+      box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.3);
     }
 
     .checkbox-container label {
@@ -273,11 +417,17 @@ export class SettingsProvider {
       font-size: 14px;
       color: #333333;
       font-weight: 500;
+      transition: all 0.2s;
+    }
+
+    .checkbox-container:hover label {
+      color: #4caf50;
     }
 
     .array-input-container {
-      background: #f8f8f8;
-      border-radius: 6px;
+      background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+      border: 1px solid rgba(76, 175, 80, 0.1);
+      border-radius: 8px;
       padding: 12px;
       margin-top: 10px;
     }
@@ -287,37 +437,53 @@ export class SettingsProvider {
       gap: 8px;
       margin-bottom: 10px;
       align-items: center;
+      animation: slideInLeft 0.3s ease-out;
+    }
+
+    .array-item:last-child {
+      margin-bottom: 0;
     }
 
     .array-item input {
       flex: 1;
       padding: 8px 10px;
       border: 1.5px solid rgba(0, 0, 0, 0.12);
-      border-radius: 4px;
+      border-radius: 6px;
       font-size: 13px;
       font-family: "Courier New", monospace;
+      transition: all 0.2s;
+    }
+
+    .array-item input:hover {
+      border-color: rgba(76, 175, 80, 0.4);
     }
 
     .array-item input:focus {
       outline: none;
       border-color: #4caf50;
+      box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
     }
 
     .btn-remove {
-      background: #ff6b6b;
+      background: linear-gradient(135deg, #ff6b6b, #ff5252);
       color: white;
       border: none;
       padding: 6px 12px;
-      border-radius: 4px;
+      border-radius: 6px;
       cursor: pointer;
       font-size: 12px;
       font-weight: 600;
-      transition: all 0.2s;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 2px 4px rgba(255, 107, 107, 0.2);
     }
 
     .btn-remove:hover {
-      background: #f44336;
-      transform: scale(1.05);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(255, 107, 107, 0.3);
+    }
+
+    .btn-remove:active {
+      transform: translateY(0);
     }
 
     .btn-add {
@@ -325,17 +491,23 @@ export class SettingsProvider {
       color: white;
       border: none;
       padding: 8px 16px;
-      border-radius: 6px;
+      border-radius: 8px;
       cursor: pointer;
       font-size: 13px;
       font-weight: 600;
       margin-top: 8px;
-      transition: all 0.3s;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 4px 12px rgba(76, 175, 80, 0.2);
     }
 
     .btn-add:hover {
       transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+      box-shadow: 0 6px 16px rgba(76, 175, 80, 0.3);
+    }
+
+    .btn-add:active {
+      transform: translateY(0);
+      box-shadow: 0 2px 8px rgba(76, 175, 80, 0.2);
     }
 
     .button-group {
@@ -345,6 +517,7 @@ export class SettingsProvider {
       padding-top: 30px;
       border-top: 2px solid rgba(0, 0, 0, 0.08);
       justify-content: flex-end;
+      animation: slideIn 0.5s ease-out 0.5s both;
     }
 
     .btn {
@@ -354,7 +527,7 @@ export class SettingsProvider {
       font-size: 15px;
       font-weight: 700;
       cursor: pointer;
-      transition: all 0.3s;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       text-transform: uppercase;
       letter-spacing: 0.5px;
     }
@@ -362,37 +535,47 @@ export class SettingsProvider {
     .btn-save {
       background: linear-gradient(135deg, #4caf50, #45a049);
       color: white;
-      box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+      box-shadow: 0 6px 20px rgba(76, 175, 80, 0.3);
     }
 
     .btn-save:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+      transform: translateY(-3px);
+      box-shadow: 0 10px 30px rgba(76, 175, 80, 0.4);
     }
 
     .btn-save:active {
-      transform: translateY(0);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
     }
 
     .btn-cancel {
       background: #f0f0f0;
       color: #333333;
       border: 1.5px solid #e0e0e0;
+      transition: all 0.3s;
     }
 
     .btn-cancel:hover {
       background: #e8e8e8;
+      border-color: #d0d0d0;
+      transform: translateY(-2px);
+    }
+
+    .btn-cancel:active {
+      transform: translateY(0);
     }
 
     .info-box {
       background: linear-gradient(135deg, rgba(33, 150, 243, 0.1) 0%, rgba(76, 175, 80, 0.05) 100%);
       border-left: 4px solid #2196f3;
-      padding: 16px;
       border-radius: 8px;
+      padding: 16px;
       margin-bottom: 24px;
       font-size: 13px;
       color: #333333;
       line-height: 1.6;
+      animation: slideIn 0.4s ease-out 0.1s both;
+      box-shadow: 0 2px 8px rgba(33, 150, 243, 0.08);
     }
 
     .severity-options {
@@ -402,13 +585,19 @@ export class SettingsProvider {
       margin-top: 10px;
     }
 
+    @media (max-width: 600px) {
+      .severity-options {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
     .severity-option {
       border: 1.5px solid rgba(0, 0, 0, 0.12);
       padding: 12px;
-      border-radius: 6px;
+      border-radius: 8px;
       text-align: center;
       cursor: pointer;
-      transition: all 0.2s;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
       background: #ffffff;
       font-weight: 600;
       font-size: 13px;
@@ -416,24 +605,35 @@ export class SettingsProvider {
 
     .severity-option:hover {
       border-color: #4caf50;
-      background: #f8f8f8;
+      background: linear-gradient(135deg, rgba(76, 175, 80, 0.05) 0%, rgba(33, 150, 243, 0.02) 100%);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(76, 175, 80, 0.15);
     }
 
     .severity-option.selected {
-      background: #4caf50;
+      background: linear-gradient(135deg, #4caf50, #45a049);
       color: white;
       border-color: #4caf50;
+      box-shadow: 0 4px 16px rgba(76, 175, 80, 0.4);
+      transform: translateY(-2px);
+    }
+
+    .severity-option.selected::after {
+      content: " ✓";
     }
 
     .success-message {
-      background: #c8e6c9;
+      background: linear-gradient(135deg, #c8e6c9, #a5d6a7);
       color: #2e7d32;
       padding: 12px 16px;
-      border-radius: 6px;
+      border-radius: 8px;
       margin-bottom: 20px;
       font-weight: 600;
       font-size: 13px;
       display: none;
+      animation: slideIn 0.3s ease-out;
+      border-left: 4px solid #4caf50;
+      box-shadow: 0 2px 8px rgba(76, 175, 80, 0.2);
     }
 
     .success-message.show {

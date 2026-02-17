@@ -94,18 +94,49 @@ export class DashboardProvider {
       }
     }
 
+    @keyframes slideInLeft {
+      from {
+        opacity: 0;
+        transform: translateX(-15px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    @keyframes bounceIn {
+      0% {
+        opacity: 0;
+        transform: scale(0.95);
+      }
+      100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
     @keyframes pulseGlow {
       0%, 100% {
         box-shadow: 0 0 0 0 rgba(244, 67, 54, 0.3);
       }
       50% {
-        box-shadow: 0 0 0 8px rgba(244, 67, 54, 0);
+        box-shadow: 0 0 0 12px rgba(244, 67, 54, 0);
       }
     }
 
     @keyframes fadeIn {
       from { opacity: 0; }
       to { opacity: 1; }
+    }
+
+    @keyframes glow {
+      0%, 100% {
+        box-shadow: 0 0 0 0 rgba(76, 175, 80, 0.3);
+      }
+      50% {
+        box-shadow: 0 0 0 8px rgba(76, 175, 80, 0);
+      }
     }
 
     * {
@@ -118,6 +149,8 @@ export class DashboardProvider {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
       padding: 30px;
       background: #ffffff;
+      animation: fadeIn 0.3s ease-out;
+    }
       color: #333333;
       animation: fadeIn 0.3s ease-in;
     }
@@ -127,8 +160,27 @@ export class DashboardProvider {
       padding: 30px;
       border-radius: 16px;
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      box-shadow: 0 10px 40px rgba(102, 126, 234, 0.2);
+      box-shadow: 0 12px 40px rgba(102, 126, 234, 0.25);
       color: white;
+      animation: slideIn 0.4s ease-out;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .header::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+      animation: slideHeaderGlow 2s infinite;
+    }
+
+    @keyframes slideHeaderGlow {
+      0% { left: -100%; }
+      100% { left: 100%; }
     }
 
     h1 {
@@ -139,17 +191,22 @@ export class DashboardProvider {
       align-items: center;
       gap: 12px;
       color: white;
+      position: relative;
+      z-index: 1;
     }
 
     .shield-icon {
       font-size: 36px;
       filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+      animation: bounceIn 0.6s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     .subtitle {
       color: rgba(255, 255, 255, 0.9);
       font-size: 14px;
       font-weight: 500;
+      position: relative;
+      z-index: 1;
     }
 
     .stats-grid {
@@ -462,31 +519,68 @@ export class DashboardProvider {
       background: linear-gradient(135deg, rgba(255, 107, 107, 0.05) 0%, rgba(255, 152, 0, 0.02) 100%);
       border: 2px solid rgba(255, 107, 107, 0.2);
       border-left: 6px solid;
-      border-radius: 10px;
+      border-radius: 12px;
       padding: 18px;
       margin-bottom: 16px;
-      transition: all 0.3s ease;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      animation: slideIn 0.4s ease-out;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .finding-item::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(90deg, rgba(255, 255, 255, 0.5), transparent);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      pointer-events: none;
     }
 
     .finding-item:hover {
-      transform: translateX(6px);
-      box-shadow: 0 8px 20px rgba(255, 107, 107, 0.15);
+      transform: translateX(6px) translateY(-2px);
+      box-shadow: 0 12px 28px rgba(255, 107, 107, 0.2);
+      border-color: rgba(255, 107, 107, 0.4);
+    }
+
+    .finding-item:hover::before {
+      opacity: 0.3;
     }
 
     .finding-item.critical {
       border-left-color: #f44336;
     }
 
+    .finding-item.critical:hover {
+      box-shadow: 0 12px 28px rgba(244, 67, 54, 0.25);
+    }
+
     .finding-item.high {
       border-left-color: #ff9800;
+    }
+
+    .finding-item.high:hover {
+      box-shadow: 0 12px 28px rgba(255, 152, 0, 0.25);
     }
 
     .finding-item.medium {
       border-left-color: #ffeb3b;
     }
 
+    .finding-item.medium:hover {
+      box-shadow: 0 12px 28px rgba(255, 235, 59, 0.2);
+    }
+
     .finding-item.low {
       border-left-color: #2196f3;
+    }
+
+    .finding-item.low:hover {
+      box-shadow: 0 12px 28px rgba(33, 150, 243, 0.2);
     }
 
     .finding-header {
@@ -591,15 +685,29 @@ export class DashboardProvider {
     .btn-settings {
       background: linear-gradient(135deg, #2196f3 0%, #1976d2 100%);
       color: white;
+      border: none;
+      padding: 10px 24px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      box-shadow: 0 4px 12px rgba(33, 150, 243, 0.25);
     }
 
     .btn-settings:hover {
       transform: translateY(-2px);
-      box-shadow: 0 4px 16px rgba(33, 150, 243, 0.4);
+      box-shadow: 0 8px 24px rgba(33, 150, 243, 0.35);
     }
 
     .btn-settings:active {
       transform: translateY(0);
+      box-shadow: 0 2px 8px rgba(33, 150, 243, 0.25);
     }
 
     .btn-icon {

@@ -105,39 +105,112 @@ By default, Guardian **skips**:
 
 ## Configuring Guardian
 
-### Access Settings
-1. Press `Ctrl+,` (or `Cmd+,` on Mac)
-2. Search for "Guardian"
-3. Adjust settings
+Guardian provides an easy-to-use settings interface with organized configuration categories.
 
-### Key Configuration Options
+### Quick Access to Settings
 
-#### Entropy Analysis
+**Option 1: Command Palette** (Recommended)
+```
+Ctrl+Shift+P (or Cmd+Shift+P on Mac)
+Type: "Guardian: Show Settings"
+```
+Opens the Guardian Settings UI with light theme
+
+**Option 2: Dashboard**
+- Click the **Settings** button on the Guardian Security Dashboard
+
+**Option 3: Standard VS Code Settings**
+```
+Ctrl+, (or Cmd+, on Mac)
+Search: "guardian"
+```
+
+### Settings UI Sections
+
+#### 🔍 Detection Settings
+Fine-tune how Guardian detects secrets:
+- **Entropy Analysis** - Enable/disable randomness-based detection
+- **Entropy Threshold** (3.0-6.0):
+  - `3.0` = Catches more strings (e.g., "password123")
+  - `4.5` = Balanced (recommended)
+  - `6.0` = Strict (only highly random strings)
+- **Minimum Severity Level** - Filter findings by severity
+
+#### 📁 Scanning Settings
+Control what Guardian scans:
+- **Exclude Patterns** - Folders to skip (glob patterns)
+  - Default: `**/node_modules/**`, `**/dist/**`, `**/build/**`, `**/.git/**`
+  - Add custom: `**/test/**`, `**/*.min.js`, etc.
+- **Scan Binary Files** - Optional: Scan Office/PDF files
+  - ⚠️ Performance warning: Adds 10-30s overhead
+
+#### 🎯 Custom Patterns
+Add company-specific secret detection:
+- Enter regex patterns for proprietary APIs, tokens, keys
+- Example: `COMPANY_KEY_[A-Z0-9]{32}`
+
+#### 🔐 Git Security Settings
+Protect against accidental commits:
+- **Block Critical Secrets** - Prevents committing critical secrets (default: ON)
+- **Block High Severity** - Optionally block high severity secrets
+- **Auto-scan Staged** - Scan files before each commit
+
+### Advanced Configuration (settings.json)
+
+For automated setup or workspace-specific configs:
+
 ```json
 {
+  // Detection settings
   "guardian.enableEntropyAnalysis": true,
-  "guardian.entropyThreshold": 4.5
-}
-```
-
-#### Severity Filtering
-```json
-{
-  "guardian.severityLevel": "medium"
-}
-```
-
-#### File Exclusions
-```json
-{
+  "guardian.entropyThreshold": 4.5,
+  "guardian.severityLevel": "medium",
+  
+  // Scanning settings
+  "guardian.scanBinaryFiles": false,
   "guardian.excludePatterns": [
     "**/node_modules/**",
     "**/dist/**",
-    "**/test/**",
-    "**/*.min.js"
-  ]
+    "**/build/**",
+    "**/.git/**",
+    "**/test/**"
+  ],
+  
+  // Custom patterns
+  "guardian.customPatterns": [
+    {
+      "name": "Internal API Key",
+      "pattern": "INTERNAL_[A-Z0-9]{32}",
+      "severity": "critical"
+    }
+  ],
+  
+  // Git security
+  "guardian.git.blockOnCritical": true,
+  "guardian.git.blockOnHigh": false,
+  "guardian.git.autoScanStaged": false
 }
 ```
+
+### Recommended Configuration
+
+**For Development Teams**:
+- Entropy Threshold: `4.5` (balanced)
+- Severity Level: `medium` (catch most issues)
+- Block Critical: `true` (prevent credential leaks)
+- Block High: `false` (avoid false positive blocks)
+- Auto-scan Staged: `true` (additional safety)
+
+**For CI/CD Integration**:
+- Enable most restrictive settings
+- Block Critical: `true`
+- Block High: `true` (optional, depends on risk tolerance)
+
+**For Individual Projects with High Risk**:
+- Entropy Threshold: `4.0` (catch more)
+- Severity Level: `low` (report everything)
+- Block Critical: `true`
+- Block High: `true`
 
 ## Custom Patterns
 

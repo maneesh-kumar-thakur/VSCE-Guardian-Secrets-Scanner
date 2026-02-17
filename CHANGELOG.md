@@ -5,6 +5,19 @@ All notable changes to the Guardian Secrets Scanner extension will be documented
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.0] - 2026-02-17
+
+### Added
+- **Custom Light-Themed Settings UI** - Intuitive settings interface matching the dashboard
+  - Organized into 4 main sections: Detection, Scanning, Custom Patterns, Git Security
+  - Interactive controls: checkboxes, sliders, array inputs, severity selector
+  - Real-time inline help and descriptions
+  - Global VS Code configuration persistence
+
+### Improved
+- **Dashboard Text Contrast** - Fixed all gray text issues for better readability on light backgrounds
+- **Documentation** - Updated all user-facing docs with new settings UI instructions
+
 ## [1.0.0] - 2026-02-17
 
 ### Added
@@ -41,6 +54,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - File exclusion patterns
   - On-save and on-open scanning options
   - Binary file scanning (optional)
+  - Git security settings (block critical/high severity, auto-scan staged)
 - **False Positive Management** with built-in filters
 - **Quick Fix Suggestions** for each detected secret with remediation guidance
 - **Performance Optimized**:
@@ -58,6 +72,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Documentation
 - **Comprehensive README** with installation and usage instructions
+
 - **Complete Usage Guide** covering all features and commands
 - **Best Practices Documentation** for secure coding and privacy
 - **Security & Privacy Guarantees** clearly outlined

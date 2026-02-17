@@ -106,32 +106,58 @@ The bottom status bar shows real-time security status:
 
 ## ⚙️ Configuration
 
-Open Settings (`Ctrl+,`) and search for "Guardian":
+Guardian provides an intuitive settings UI for easy configuration.
 
-### Core Settings
+### Opening Settings
+
+**Option 1: Via Command Palette**
+```
+Ctrl+Shift+P (or Cmd+Shift+P on Mac)
+→ "Guardian: Show Settings"
+```
+
+**Option 2: Via Dashboard**
+- Click the **Settings** button on the Guardian Security Dashboard
+
+**Option 3: Via Standard Settings** 
+```
+Ctrl+, (or Cmd+, on Mac)
+→ Search for "Guardian"
+```
+
+### Settings Categories
+
+#### 🔍 Detection Settings
+- **Entropy Analysis** - Detect secrets by analyzing character randomness
+- **Entropy Threshold** - Configure sensitivity (3.0 = catch more, 6.0 = strict)
+- **Minimum Severity Level** - Only report Critical, High, Medium, or Low severity findings
+
+#### 📁 Scanning Settings
+- **Exclude Patterns** - Folders to skip (node_modules, dist, build, .git by default)
+- **Scan Binary Files** - Optional: Scan Office & PDF files (adds 10-30s overhead)
+
+#### 🎯 Custom Patterns
+- Add your own regex patterns for organization-specific secrets
+- Useful for detecting company-specific API key formats or internal tokens
+
+#### 🔐 Git Security Settings
+- **Block Critical Secrets** - Prevent commits with critical secrets (default: enabled)
+- **Block High Severity** - Optionally block high severity secrets too
+- **Auto-scan Staged** - Automatically scan staged files before each commit
+
+### Advanced Configuration (settings.json)
+
+You can also edit settings directly in `settings.json`:
 
 ```json
 {
-  // Automatically scan files when saved
-  "guardian.scanOnSave": true,
-  
-  // Automatically scan files when opened
-  "guardian.scanOnOpen": false,
-  
-  // Use entropy analysis for unknown secrets
+  // Detection
   "guardian.enableEntropyAnalysis": true,
-  
-  // Entropy threshold (3.0-6.0, higher = stricter)
   "guardian.entropyThreshold": 4.5,
-  
-  // Minimum severity level to report
   "guardian.severityLevel": "medium",
   
-  // Scan binary files (xlsx, docx, etc.) - may impact performance
-  // Note: Binary file scanning uses basic pattern matching and may miss secrets in binary formats
+  // Scanning
   "guardian.scanBinaryFiles": false,
-  
-  // Patterns to exclude from scanning
   "guardian.excludePatterns": [
     "**/node_modules/**",
     "**/dist/**",
@@ -139,20 +165,13 @@ Open Settings (`Ctrl+,`) and search for "Guardian":
     "**/.git/**"
   ],
   
-  // Custom detection patterns
-  "guardian.customPatterns": [
-    {
-      "name": "Company API Key",
-      "pattern": "COMPANY_API_[A-Z0-9]{32}",
-      "severity": "critical",
-      "description": "Company API key detected",
-      "flags": "g"
-    }
-  ],
+  // Custom patterns
+  "guardian.customPatterns": [],
   
   // Git integration
   "guardian.git.blockOnCritical": true,
-  "guardian.git.blockOnHigh": false
+  "guardian.git.blockOnHigh": false,
+  "guardian.git.autoScanStaged": false
 }
 ```
 

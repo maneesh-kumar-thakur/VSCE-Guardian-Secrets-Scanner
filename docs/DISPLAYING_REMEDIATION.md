@@ -48,7 +48,7 @@ TreeView shows:
 // Command 1: Open Remediation Guide
 vscode.commands.registerCommand('guardian.viewRemediationGuide', async (finding: Finding) => {
   const remediationPath = vscode.Uri.file(
-    path.join(__dirname, '../../REMEDIATION.md')
+    path.join(__dirname, '../REMEDIATION.md')
   );
   
   // Open in new tab
@@ -135,7 +135,7 @@ User hovers over finding:
 // Opening docs in new tab
 async function openRemediationGuide(severity: string): Promise<void> {
   const remediationPath = vscode.Uri.file(
-    path.join(__dirname, '../../REMEDIATION.md')
+    path.join(__dirname, '../REMEDIATION.md')
   );
   
   const doc = await vscode.workspace.openTextDocument(remediationPath);

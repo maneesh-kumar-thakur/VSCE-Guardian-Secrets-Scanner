@@ -105,10 +105,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Comprehensive Documentation**
   - README.md: Features, setup, and quick start
   - USAGE.md: Detailed usage guide and configuration
-  - SUPPRESSION_AUDIT_GUIDE.md: Audit logging and compliance
-  - TEST_SUPPRESSION.md: Testing guide with examples
-  - REPOSITORY_PROTECTION.md: Branch protection and release guidelines
-  - REMEDIATION.md: Fix guidance for detected secrets
+  - SUPPRESSION_AUDIT_GUIDE.md: Audit logging and compliance (this folder)
+  - TEST_SUPPRESSION.md: Testing guide with examples (this folder)
+  - REPOSITORY_PROTECTION.md: Branch protection and release guidelines (this folder)
+  - REMEDIATION.md: Fix guidance for detected secrets (this folder)
   - BUILD.md: Development setup
 
 ### 🛡️ Security & Privacy

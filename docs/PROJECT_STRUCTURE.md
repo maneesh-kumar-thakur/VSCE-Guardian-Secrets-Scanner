@@ -14,12 +14,16 @@ Guardian-Secrets-Scanner/
 ├── 📂 docs/                  # ✅ Developer & User Guides
 │   ├── USAGE.md              # User guide for features
 │   ├── BUILD.md              # Developer build instructions
-│   └── TESTING.md            # Testing guide & checklist
+│   ├── TESTING.md            # Testing guide & checklist
+│   ├── CHANGELOG.md          # Version history
+│   ├── RELEASE_NOTES_v1.0.0.md  # Release notes
+│   ├── REMEDIATION.md        # Fix guidance for detected secrets
+│   ├── SUPPRESSION_AUDIT_GUIDE.md # Audit logging & suppressions
+│   ├── TEST_SUPPRESSION.md   # Suppression feature testing
+│   └── REPOSITORY_PROTECTION.md  # Branch protection guide
 │
 ├── 📂 confidential/docs/     # 🔒 Non-essential documentation (GIT IGNORED)
-│   ├── CHANGELOG.md          # Version history
 │   ├── COMPLETE_SUMMARY.md   # Project overview & analysis
-│   ├── GIT_BLOCKING_STRATEGY.md  # Git integration guide (advanced)
 │   ├── MANIFEST.md           # Project manifest & checklist
 │   ├── PROJECT_OVERVIEW.md   # Technical overview (internal)
 │   └── VALUE_PROPOSITION.md  # Competitive analysis
@@ -64,12 +68,16 @@ Guardian-Secrets-Scanner/
 
 ### In `docs/` (Developer-Facing)
 - `USAGE.md` - User feature guide
+- `BUILD.md` - Developer build i & User Documentation)
+- `USAGE.md` - User feature guide and configuration
 - `BUILD.md` - Developer build instructions
-- `TESTING.md` - Testing documentation
+- `TESTING.md` - Testing documentation and procedures
+- `CHANGELOG.md` - Version history and changes
+- `RELEASE_NOTES_v1.0.0.md` - v1.0.0 release , Internal Only)
+- `COMPLETE_SUMMARY.md` - Project summary (nice-to-hav
+- `REPOSITORY_PROTECTION.md` - Branch protection and release guidelines
 
-These are development guides that developers regularly reference.
-
-### In `confidential/docs/` 🔒 (Non-Essential)
+These are comprehensive guides for both users and developers
 - `CHANGELOG.md` - Version history (for reference)
 - `COMPLETE_SUMMARY.md` - Project summary (nice-to-have)
 - `GIT_BLOCKING_STRATEGY.md` - Advanced Git guide (reference)

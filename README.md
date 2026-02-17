@@ -343,7 +343,7 @@ Ctrl+Shift+P → "Guardian: Export Security Report"
 - Commit `SUPPRESSIONS_AUDIT.md` to enable team visibility
 - All suppressions tied to username for accountability
 - Historical audit trail for security reviews
-See [SUPPRESSION_AUDIT_GUIDE.md](SUPPRESSION_AUDIT_GUIDE.md) for full details on audit logging.
+See [SUPPRESSION_AUDIT_GUIDE.md](docs/SUPPRESSION_AUDIT_GUIDE.md) for full details on audit logging.
 
 ## 🎨 Custom Patterns
 
@@ -523,8 +523,8 @@ While Guardian is comprehensive, no automated tool catches 100% of secrets. Alwa
 - **Documentation**: 
   - [README](README.md) - Feature overview (this file)
   - [Security Policy](SECURITY.md) - Security vulnerabilities & reporting
-  - [Suppression Guide](SUPPRESSION_AUDIT_GUIDE.md) - Audit logging and suppressions
-  - [Changelog](CHANGELOG.md) - Version history and updates
+  - [Suppression Guide](docs/SUPPRESSION_AUDIT_GUIDE.md) - Audit logging and suppressions
+  - [Changelog](docs/CHANGELOG.md) - Version history and updates
 
 - **Report Bugs**: [GitHub Issues](https://github.com/Maneesh-Relanto/VSCE-Guardian-Secrets-Scanner/issues)
   - Include Guardian version, VS Code version, file type

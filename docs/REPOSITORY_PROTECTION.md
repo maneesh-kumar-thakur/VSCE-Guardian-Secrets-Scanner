@@ -143,7 +143,7 @@ Before creating a release:
 
 - [ ] All tests passing (`npm test`)
 - [ ] Code compiles without errors (`npm run compile`)
-- [ ] CHANGELOG.md updated with version & changes
+- [ ] docs/CHANGELOG.md updated with version & changes
 - [ ] package.json version bumped
 - [ ] VSIX package created and verified
 - [ ] No breaking changes without major version bump

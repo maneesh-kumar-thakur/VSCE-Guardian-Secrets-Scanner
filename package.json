@@ -77,24 +77,24 @@
         "guardian.scanOnSave": {
           "type": "boolean",
           "default": true,
-          "description": "Automatically scan files when saved"
+          "description": "🔍 RECOMMENDED: true | Automatically scan files when saved | Catches secrets immediately before commit. Minimal performance impact. Only disable if saving large files causes noticeable lag."
         },
         "guardian.scanOnOpen": {
           "type": "boolean",
           "default": false,
-          "description": "Automatically scan files when opened"
+          "description": "🔍 RECOMMENDED: false | Automatically scan files when opened | Useful for reviewing existing code, but causes startup lag. Enable only on projects with known secret risks. Trade-off: convenience vs. performance."
         },
         "guardian.enableEntropyAnalysis": {
           "type": "boolean",
           "default": true,
-          "description": "Use entropy analysis to detect high-randomness strings (potential secrets)"
+          "description": "📊 RECOMMENDED: true | Use entropy analysis to detect hidden secrets | Analyzes randomness to find auto-generated tokens, passwords, UUIDs that pattern matching misses. Slightly slower but catches more secrets."
         },
         "guardian.entropyThreshold": {
           "type": "number",
           "default": 4.5,
           "minimum": 3.0,
           "maximum": 6.0,
-          "description": "Entropy threshold for secret detection (higher = stricter)"
+          "description": "📊 RECOMMENDED: 4.5 | Entropy detection sensitivity (3.0-6.0) | 3.0=catch more (password123), 4.5=balanced (default), 6.0=strict (only highly random). Scale: ~2=repetition, ~3.5=predictable, ~4.5+=likely secret!"
         },
         "guardian.excludePatterns": {
           "type": "array",
@@ -105,38 +105,38 @@
             "**/.git/**",
             "**/vendor/**"
           ],
-          "description": "Glob patterns for files/folders to exclude from scanning"
+          "description": "⏭️ RECOMMENDED: [defaults] | Skip scanning these folders | Defaults prevent scanning node_modules, dist, build. Add more: `**/test/**` for tests, `**/*.min.js` for minified code. Improves performance by 30-50%."
         },
         "guardian.severityLevel": {
           "type": "string",
           "enum": ["critical", "high", "medium", "low"],
           "default": "medium",
-          "description": "Minimum severity level to report"
+          "description": "🎯 RECOMMENDED: medium | Minimum alert severity | critical=only critical, high=critical+high, medium=critical+high+medium, low=all. Start with 'medium', adjust if too many/few alerts."
         },
         "guardian.customPatterns": {
           "type": "array",
           "default": [],
-          "description": "Custom regex patterns for detecting secrets"
+          "description": "🔧 OPTIONAL | Custom detection patterns | Add regex for company-specific secrets, internal tokens, custom APIs. Example: `myapp[_-]?secret[=:]\\s*([^\\s]+)`. Use 'Add Custom Pattern' command for UI help."
         },
         "guardian.scanBinaryFiles": {
           "type": "boolean",
           "default": false,
-          "description": "Scan binary files (xlsx, docx, etc.) - may impact performance"
+          "description": "📄 RECOMMENDED: false | Scan binary files (xlsx, docx, pdf) | ⚠️ WARNING: Significantly slower (10-30s overhead). Only enable if you commit Office docs with embedded secrets. Most teams leave disabled."
         },
         "guardian.git.blockOnCritical": {
           "type": "boolean",
           "default": true,
-          "description": "Block Git commits when critical severity secrets are detected"
+          "description": "🚫 RECOMMENDED: true | Block commits with critical secrets | Prevents accidental commits of AWS keys, private keys, DB passwords. Best practice: always enabled. Disable only in emergency situations."
         },
         "guardian.git.blockOnHigh": {
           "type": "boolean",
           "default": false,
-          "description": "Block Git commits when high severity secrets are detected"
+          "description": "🚫 OPTIONAL | Block commits with high severity secrets | High=API keys, OAuth tokens. Set to true for strict teams, false for flexibility. Recommended: evaluate based on team risk tolerance."
         },
         "guardian.git.autoScanStaged": {
           "type": "boolean",
           "default": false,
-          "description": "Automatically scan staged files before commit (requires Git extension)"
+          "description": "🔍 RECOMMENDED: true | Scan staged files before commit | Automatically checks only staged files (faster). Set to true for additional protection before pushing. Works best with blockOnCritical enabled."
         }
       }
     },

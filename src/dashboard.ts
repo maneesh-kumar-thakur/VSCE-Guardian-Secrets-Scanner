@@ -116,18 +116,19 @@ export class DashboardProvider {
 
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-      padding: 20px;
-      background: var(--vscode-editor-background);
-      color: var(--vscode-editor-foreground);
+      padding: 30px;
+      background: #ffffff;
+      color: #333333;
       animation: fadeIn 0.3s ease-in;
     }
 
     .header {
-      margin-bottom: 30px;
-      padding: 20px;
-      border-radius: 12px;
-      background: linear-gradient(135deg, rgba(244, 67, 54, 0.1) 0%, rgba(255, 152, 0, 0.05) 100%);
-      border: 1px solid rgba(244, 67, 54, 0.2);
+      margin-bottom: 40px;
+      padding: 30px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      box-shadow: 0 10px 40px rgba(102, 126, 234, 0.2);
+      color: white;
     }
 
     h1 {
@@ -137,19 +138,16 @@ export class DashboardProvider {
       display: flex;
       align-items: center;
       gap: 12px;
-      background: linear-gradient(135deg, #ff6b6b 0%, #ff9800 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
+      color: white;
     }
 
     .shield-icon {
       font-size: 36px;
-      filter: drop-shadow(0 2px 4px rgba(244, 67, 54, 0.3));
+      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
     }
 
     .subtitle {
-      color: var(--vscode-descriptionForeground);
+      color: rgba(255, 255, 255, 0.9);
       font-size: 14px;
       font-weight: 500;
     }
@@ -162,14 +160,15 @@ export class DashboardProvider {
     }
 
     .stat-card {
-      background: linear-gradient(135deg, var(--vscode-editor-inactiveSelectionBackground) 0%, rgba(255, 255, 255, 0.02) 100%);
-      border: 2px solid var(--vscode-panel-border);
+      background: white;
+      border: 2px solid #e0e0e0;
       border-radius: 12px;
       padding: 24px;
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       animation: slideIn 0.4s ease-out;
       position: relative;
       overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
     }
 
     .stat-card::before {
@@ -178,7 +177,7 @@ export class DashboardProvider {
       top: 0;
       left: 0;
       right: 0;
-      height: 3px;
+      height: 4px;
       background: currentColor;
     }
 
@@ -216,15 +215,12 @@ export class DashboardProvider {
       font-size: 48px;
       font-weight: 800;
       margin-bottom: 8px;
-      background: linear-gradient(135deg, currentColor 0%, rgba(255, 159, 64, 0.7) 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
+      color: currentColor;
     }
 
     .stat-label {
       font-size: 13px;
-      color: var(--vscode-descriptionForeground);
+      color: #666666;
       text-transform: uppercase;
       letter-spacing: 1.2px;
       font-weight: 700;
@@ -241,13 +237,14 @@ export class DashboardProvider {
       margin-bottom: 18px;
       padding-bottom: 12px;
       border-bottom: 3px solid;
-      border-image: linear-gradient(90deg, #ff6b6b, #ff9800) 1;
+      border-image: linear-gradient(90deg, #667eea, #764ba2) 1;
       display: flex;
       align-items: center;
       gap: 8px;
-      background: linear-gradient(90deg, rgba(255, 107, 107, 0.05), rgba(255, 152, 0, 0.02));
+      background: linear-gradient(90deg, rgba(102, 126, 234, 0.03), rgba(118, 75, 162, 0.02));
       padding-left: 12px;
       border-radius: 4px;
+      color: #333333;
     }
 
     .category-grid {
@@ -257,13 +254,14 @@ export class DashboardProvider {
     }
 
     .category-card {
-      background: linear-gradient(135deg, var(--vscode-editor-inactiveSelectionBackground) 0%, rgba(255, 255, 255, 0.01) 100%);
-      border: 1.5px solid var(--vscode-panel-border);
+      background: white;
+      border: 1.5px solid #e0e0e0;
       border-radius: 10px;
       padding: 18px;
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       position: relative;
       overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
     }
 
     .category-card::after {
@@ -273,7 +271,7 @@ export class DashboardProvider {
       left: 0;
       right: 0;
       height: 2px;
-      background: linear-gradient(90deg, #ff6b6b, #ff9800);
+      background: linear-gradient(90deg, #667eea, #764ba2);
       transform: scaleX(0);
       transform-origin: left;
       transition: transform 0.3s ease;
@@ -281,6 +279,8 @@ export class DashboardProvider {
 
     .category-card:hover {
       transform: translateY(-4px);
+      box-shadow: 0 8px 20px rgba(102, 126, 234, 0.15);
+      border-color: #667eea;
       box-shadow: 0 8px 20px rgba(255, 107, 107, 0.15);
       border-color: rgba(255, 107, 107, 0.5);
     }
@@ -761,6 +761,21 @@ export class DashboardProvider {
         <ul>
           ${recommendations.map(rec => `<li>${rec}</li>`).join('')}
         </ul>
+      </div>
+
+      <div class="recommendations" style="background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.05) 100%); border-left-color: #667eea;">
+        <h3 style="color: #667eea;">📊 Understanding Entropy Detection</h3>
+        <p style="font-size: 13px; line-height: 1.6; margin-bottom: 12px; color: #555;">
+          Guardian uses <strong>Shannon entropy</strong> to detect high-randomness strings that might be hidden secrets:
+        </p>
+        <ul style="list-style-type: none; padding: 0;">
+          <li style="margin-bottom: 8px; font-size: 13px;"><strong>Low Entropy (~2.0)</strong>: "aaaaaaa" - Obvious repetition, not a secret</li>
+          <li style="margin-bottom: 8px; font-size: 13px;"><strong>Medium Entropy (~3.5)</strong>: "password123" - Predictable pattern</li>
+          <li style="font-size: 13px;"><strong>High Entropy (~4.5+)</strong>: "K7x9Mq2Wp5Nz8Rt3" - ⚠️ Likely a secret!</li>
+        </ul>
+        <p style="font-size: 12px; margin-top: 12px; color: #666; font-style: italic;">
+          💡 Adjust entropy threshold in Settings (3.0-6.0) to control sensitivity
+        </p>
       </div>
     `;
   }

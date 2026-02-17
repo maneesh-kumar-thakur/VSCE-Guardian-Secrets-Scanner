@@ -1,5 +1,11 @@
-node_modules
-out
+# Compiled output folders
+dist/
+out/
+
+# Node.js dependencies
+node_modules/
+
+# VS Code extension package
 *.vsix
 .vscode-test/
 .vscode/

@@ -2,7 +2,7 @@
 
 > **SECURITY FIRST · PRIVACY PROTECTED · ZERO TRUST**
 
-**Advanced security extension that detects passwords, API keys, tokens, and sensitive data across all file types with entropy analysis and custom pattern detection.**
+**Advanced security extension that detects passwords, API keys, tokens, and sensitive data in code, configuration, and text files with entropy analysis and custom pattern detection.**
 
 ---
 
@@ -11,8 +11,8 @@
 ### SECURITY FIRST
 Guardian was built from the ground up with a **security-first philosophy**. We don't just detect secrets—we prevent them from ever reaching your repository through multiple layers of defense:
 
-- **🛡️ Multi-Layer Defense**: Real-time scanning → IDE diagnostics → Pre-commit blocking → .gitignore protection
-- **🚨 Zero-Tolerance for Critical Secrets**: AWS keys, private keys, and database passwords automatically block commits
+- **🛡️ Multi-Layer Defense**: Real-time scanning → IDE diagnostics → Pre-commit blocking (with hook installed)
+- **🚨 Zero-Tolerance for Critical Secrets** (when pre-commit hook enabled): AWS keys, private keys, and database passwords automatically block commits
 - **⚡ Shift-Left Security**: Catch secrets **before** they're committed, not after they're exposed
 - **🎯 Proactive, Not Reactive**: Built-in prevention mechanisms, not just detection
 
@@ -28,10 +28,10 @@ Your code and data privacy is **non-negotiable**:
 ### RESPONSIBILITY & COMPLIANCE
 We take our responsibility seriously:
 
-- **✅ Compliance Ready**: Helps meet SOC 2, PCI DSS, GDPR, and HIPAA requirements
+- **✅ Compliance Support**: Helps support SOC 2, PCI DSS, GDPR, and HIPAA requirements (see Compliance Support section for details)
 - **📊 Audit Trail**: Detailed reports and logs for security audits
 - **👥 Team Protection**: Shared security standards across your organization
-- **📚 Security Education**: Built-in best practices and remediation guidance
+- **📚 Security Education**: Comprehensive documentation and best practices
 
 ---
 
@@ -40,8 +40,8 @@ We take our responsibility seriously:
 ### What Makes Guardian Different?
 
 1. **Entropy Analysis** - Uses Shannon entropy calculation to detect high-randomness strings that traditional pattern matching might miss
-2. **Multi-File Type Support** - Scans code, config files, env files, scripts, and text files. Binary files (docx, xlsx, pdf) can be scanned with optional configuration
-3. **Context-Aware Detection** - Analyzes surrounding code to reduce false positives
+2. **Multi-Language Support** - Scans code files (.js, .ts, .py, .go, etc.), config files (.env, .yaml, etc.), and text files
+3. **Context Preservation** - Includes surrounding code context with each finding for manual review
 4. **Real-Time Scanning** - Automatically scans files on save (enabled by default); on-open scanning available (disabled by default)
 5. **Comprehensive Pattern Library** - Detects 40+ types of secrets including:
    - Cloud credentials (AWS, Azure, GCP)
@@ -54,10 +54,10 @@ We take our responsibility seriously:
 
 6. **Custom Pattern Support** - Add your own regex patterns for organization-specific secrets
 7. **False Positive Suppression** - Mark findings as false positives with justification; manage suppressions easily
-8. **Security Dashboard** - Beautiful visual dashboard showing security overview
-9. **Multiple Export Formats** - Export reports as JSON, Markdown, or CSV
+8. **Security Dashboard** - Visual dashboard showing security overview and findings summary
+9. **Export to Markdown or CSV** - Export reports for external analysis and compliance
 10. **Severity-Based Filtering** - Focus on critical issues first
-11. **Git Commit Blocking** - Pre-commit hooks to prevent secrets from being committed
+11. **Git Commit Blocking** - Pre-commit hooks (when installed) to prevent secrets from being committed
 
 ## 📦 Installation
 
@@ -70,7 +70,8 @@ We take our responsibility seriously:
 
 ### From Source
 ```bash
-cd secret-scanner-vscode
+git clone https://github.com/Maneesh-Relanto/VSCE-Guardian-Secrets-Scanner.git
+cd VSCE-Guardian-Secrets-Scanner
 npm install
 npm run compile
 # Press F5 in VS Code to debug
@@ -86,10 +87,12 @@ Press `Ctrl+Shift+P` (or `Cmd+Shift+P` on Mac) and search for:
 - **Guardian: Scan Current File** - Scan only the active file
 - **Guardian: Show Security Dashboard** - Open the visual security dashboard
 - **Guardian: Clear All Findings** - Clear all detected findings
-- **Guardian: Export Security Report** - Export findings as JSON/MD/CSV
+- **Guardian: Export Security Report** - Export findings as Markdown or CSV
 - **Guardian: Add Custom Pattern** - Add organization-specific detection patterns
 - **Guardian: Install Pre-commit Hook** - Block commits containing secrets
 - **Guardian: Scan Staged Files** - Check files before committing
+- **Guardian: View Suppression Report** - See audit of all suppressions
+- **Guardian: Open Settings** - Configure Guardian options
 
 ### Activity Bar
 
@@ -129,20 +132,21 @@ Ctrl+, (or Cmd+, on Mac)
 ### Settings Categories
 
 #### 🔍 Detection Settings
-- **Entropy Analysis** - Detect secrets by analyzing character randomness
-- **Entropy Threshold** - Configure sensitivity (3.0 = catch more, 6.0 = strict)
+- **Entropy Analysis** - Detect secrets by analyzing character randomness (enabled by default)
+- **Entropy Threshold** - Configure sensitivity (3.0 = catch more, 6.0 = strict, default 4.5)
 - **Minimum Severity Level** - Only report Critical, High, Medium, or Low severity findings
 
 #### 📁 Scanning Settings
 - **Exclude Patterns** - Folders to skip (node_modules, dist, build, .git by default)
-- **Scan Binary Files** - Optional: Scan Office & PDF files (adds 10-30s overhead)
+- **Scan On Save** - Enable automatic scanning when files are saved (default: true)
+- **Scan On Open** - Enable automatic scanning when files are opened (default: false)
 
 #### 🎯 Custom Patterns
 - Add your own regex patterns for organization-specific secrets
 - Useful for detecting company-specific API key formats or internal tokens
 
 #### 🔐 Git Security Settings
-- **Block Critical Secrets** - Prevent commits with critical secrets (default: enabled)
+- **Block Critical Secrets** - Prevent commits with critical secrets (default: enabled when hook is installed)
 - **Block High Severity** - Optionally block high severity secrets too
 - **Auto-scan Staged** - Automatically scan staged files before each commit
 
@@ -158,7 +162,8 @@ You can also edit settings directly in `settings.json`:
   "guardian.severityLevel": "medium",
   
   // Scanning
-  "guardian.scanBinaryFiles": false,
+  "guardian.scanOnSave": true,
+  "guardian.scanOnOpen": false,
   "guardian.excludePatterns": [
     "**/node_modules/**",
     "**/dist/**",
@@ -243,10 +248,10 @@ Strings with high entropy (randomness) + variety of character types are flagged 
 ## 📊 Security Dashboard
 
 The visual dashboard provides:
-- **Statistics**: Count of findings by severity
-- **Category Breakdown**: Which types of secrets were found
-- **Top Files**: Most affected files
-- **Recommendations**: Security best practices and remediation steps
+- **Statistics**: Count of findings by severity and category
+- **Overview**: Quick view of security status
+- **Navigation**: Click findings to jump to exact locations in code
+- **Filtering**: Focus on specific severity levels or types
 
 ## 🛡️ Best Practices
 
@@ -318,11 +323,14 @@ Ctrl+Shift+P → "Guardian: View Suppressed Findings"
 
 **Audit & Compliance**:
 ```bash
-# View suppression statistics
+# View suppression statistics and history
 Ctrl+Shift+P → "Guardian: View Suppression Report"
 
 # Review suppressions pending >30 days
 Ctrl+Shift+P → "Guardian: Review Pending Suppressions"
+
+# Export findings for external tools
+Ctrl+Shift+P → "Guardian: Export Security Report"
 ```
 
 **Storage & Audit Trail**:
@@ -513,9 +521,10 @@ While Guardian is comprehensive, no automated tool catches 100% of secrets. Alwa
 ### Getting Help
 
 - **Documentation**: 
+  - [README](README.md) - Feature overview (this file)
   - [Usage Guide](USAGE.md) - Complete usage instructions
+  - [Security Policy](SECURITY.md) - Security vulnerabilities & reporting
   - [Testing Guide](TESTING.md) - Testing and validation
-  - [Best Practices](docs/SECURE_CODING_PRACTICES.md) - Security best practices
   - [Build Guide](BUILD.md) - Development and building
 
 - **Report Bugs**: [GitHub Issues](https://github.com/Maneesh-Relanto/VSCE-Guardian-Secrets-Scanner/issues)
@@ -545,23 +554,23 @@ While Guardian is comprehensive, no automated tool catches 100% of secrets. Alwa
 
 **Guardian not detecting secrets?**
 - Verify `guardian.scanOnSave` is enabled in settings
-- Check file type supported (text/code files by default, not binary)
+- Check file type is supported (JavaScript, Python, Go, Java, TypeScript, etc.)
 - Try manual scan: `Ctrl+Shift+P` → "Guardian: Scan Entire Workspace"
 - Review entropy threshold setting
 
 **Too many false positives?**
 - Increase `guardian.entropyThreshold` (higher = stricter detection)
-- Add custom false positive filters in settings
-- See [USAGE.md](USAGE.md) for detailed filtering options
+- Suppress findings with reasons for team visibility
+- See [USAGE.md](USAGE.md) for detailed suppression options
 
 **Pre-commit hook issues?**
 - Verify Git is initialized in workspace
 - Run: `Ctrl+Shift+P` → "Guardian: Install Pre-commit Hook"
 - Check `.git/hooks/pre-commit` file permissions
+- Verify hook is executable: `chmod +x .git/hooks/pre-commit`
 
 **Performance concerns?**
-- Disable `guardian.scanOnOpen`
-- Disable `guardian.scanBinaryFiles`
+- Disable `guardian.scanOnOpen` (only scans on save by default)
 - Expand `guardian.excludePatterns` for large folders
 - Use `guardian.severityLevel` to focus on critical issues
 

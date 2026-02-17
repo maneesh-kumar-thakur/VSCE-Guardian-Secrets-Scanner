@@ -548,23 +548,6 @@ export class SettingsProvider {
       box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
     }
 
-    .btn-cancel {
-      background: #f0f0f0;
-      color: #333333;
-      border: 1.5px solid #e0e0e0;
-      transition: all 0.3s;
-    }
-
-    .btn-cancel:hover {
-      background: #e8e8e8;
-      border-color: #d0d0d0;
-      transform: translateY(-2px);
-    }
-
-    .btn-cancel:active {
-      transform: translateY(0);
-    }
-
     .info-box {
       background: linear-gradient(135deg, rgba(33, 150, 243, 0.1) 0%, rgba(76, 175, 80, 0.05) 100%);
       border-left: 4px solid #2196f3;
@@ -775,9 +758,8 @@ export class SettingsProvider {
       </div>
     </div>
 
-    <!-- Save Buttons -->
+    <!-- Save Button -->
     <div class="button-group">
-      <button class="btn btn-cancel" onclick="window.close()">Cancel</button>
       <button class="btn btn-save" onclick="saveSettings()">Save Settings</button>
     </div>
   </div>

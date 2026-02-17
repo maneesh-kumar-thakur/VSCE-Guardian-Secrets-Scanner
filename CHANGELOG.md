@@ -5,6 +5,17 @@ All notable changes to the Guardian Secrets Scanner extension will be documented
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.0] - 2026-02-17
+
+### Added
+- **False Positive Suppression System** - Mark findings as false positives and manage suppressions
+  - Suppress individual findings with human-readable reason
+  - View suppressed findings with filtering and unsuppress options
+  - Suppressions stored in `.vscode/guardian-suppressions.json` (persists across sessions)
+  - Commands: `Guardian: Suppress Finding` and `Guardian: View Suppressed Findings`
+  - Suppression metadata includes: file path, line number, pattern, reason, timestamp
+  - Statistics tracking for suppressed findings by severity
+
 ## [1.1.0] - 2026-02-17
 
 ### Added
@@ -13,6 +24,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Interactive controls: checkboxes, sliders, array inputs, severity selector
   - Real-time inline help and descriptions
   - Global VS Code configuration persistence
+
+### Improved
+- **UI Animations and Polish** - Smooth transitions and visual feedback
+  - Cascading animations for settings sections
+  - Enhanced hover states with better shadows
+  - Cubic-bezier transitions for smoother motion
+  - Better button feedback and visual hierarchy
 
 ### Improved
 - **Dashboard Text Contrast** - Fixed all gray text issues for better readability on light backgrounds

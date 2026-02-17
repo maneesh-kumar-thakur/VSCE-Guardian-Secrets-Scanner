@@ -171,16 +171,11 @@ export class DashboardProvider {
       content: '';
       position: absolute;
       top: 0;
-      left: -100%;
+      left: 0;
       width: 100%;
       height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-      animation: slideHeaderGlow 2s infinite;
-    }
-
-    @keyframes slideHeaderGlow {
-      0% { left: -100%; }
-      100% { left: 100%; }
+      background: linear-gradient(90deg, rgba(255, 255, 255, 0.1), transparent, rgba(255, 255, 255, 0.1));
+      pointer-events: none;
     }
 
     h1 {
@@ -193,12 +188,14 @@ export class DashboardProvider {
       color: white;
       position: relative;
       z-index: 1;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
     }
 
     .shield-icon {
       font-size: 36px;
-      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
       animation: bounceIn 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
     }
 
     .subtitle {
@@ -222,7 +219,7 @@ export class DashboardProvider {
       border-radius: 12px;
       padding: 24px;
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      animation: slideIn 0.4s ease-out;
+      animation: fadeIn 0.3s ease-out;
       position: relative;
       overflow: hidden;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
@@ -523,7 +520,7 @@ export class DashboardProvider {
       padding: 18px;
       margin-bottom: 16px;
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      animation: slideIn 0.4s ease-out;
+      animation: fadeIn 0.3s ease-out;
       position: relative;
       overflow: hidden;
     }

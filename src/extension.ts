@@ -250,9 +250,17 @@ export function activate(context: vscode.ExtensionContext) {
   });
 
   // Suppress a finding
-  const suppressFindingCommand = vscode.commands.registerCommand('guardian.suppressFinding', async (finding: Finding) => {
+  const suppressFindingCommand = vscode.commands.registerCommand('guardian.suppressFinding', async (treeItemOrFinding: any) => {
     if (!suppressionManager) {
       vscode.window.showErrorMessage('Suppression manager not available');
+      return;
+    }
+
+    // Extract Finding object - either passed directly or from tree item
+    const finding: Finding = treeItemOrFinding?.finding || treeItemOrFinding;
+
+    if (!finding || !finding.file || !finding.line) {
+      vscode.window.showErrorMessage('No finding selected to suppress');
       return;
     }
 

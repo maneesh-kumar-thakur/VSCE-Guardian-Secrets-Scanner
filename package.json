@@ -72,8 +72,7 @@
       },
       {
         "command": "guardian.suppressFinding",
-        "title": "Guardian: Suppress Finding (Mark as False Positive)",
-        "when": "false"
+        "title": "Guardian: Suppress Finding (Mark as False Positive)"
       },
       {
         "command": "guardian.viewSuppressed",
@@ -178,6 +177,15 @@
         {
           "id": "guardianStats",
           "name": "Statistics"
+        }
+      ]
+    },
+    "menus": {
+      "view/item/context": [
+        {
+          "command": "guardian.suppressFinding",
+          "when": "viewItem == finding",
+          "group": "inline"
         }
       ]
     },

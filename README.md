@@ -53,10 +53,11 @@ We take our responsibility seriously:
    - And many more...
 
 6. **Custom Pattern Support** - Add your own regex patterns for organization-specific secrets
-7. **Security Dashboard** - Beautiful visual dashboard showing security overview
-8. **Multiple Export Formats** - Export reports as JSON, Markdown, or CSV
-9. **Severity-Based Filtering** - Focus on critical issues first
-10. **Git Commit Blocking** - Pre-commit hooks to prevent secrets from being committed
+7. **False Positive Suppression** - Mark findings as false positives with justification; manage suppressions easily
+8. **Security Dashboard** - Beautiful visual dashboard showing security overview
+9. **Multiple Export Formats** - Export reports as JSON, Markdown, or CSV
+10. **Severity-Based Filtering** - Focus on critical issues first
+11. **Git Commit Blocking** - Pre-commit hooks to prevent secrets from being committed
 
 ## 📦 Installation
 
@@ -289,6 +290,33 @@ If Guardian finds secrets:
    - ✅ Review if it's a real secret or false positive
    - ✅ Move to environment variables or secret manager
    - ✅ Update `.gitignore` to prevent future commits
+
+### Managing False Positives
+
+Guardian allows you to suppress findings that are known to be false positives:
+
+**Suppress a Finding**:
+```bash
+# Via Command Palette
+Ctrl+Shift+P → "Guardian: Suppress Finding"
+# or right-click a finding in the tree view
+```
+- Provide a reason for suppression (e.g., "Test data", "Demo credentials")
+- Finding is removed from current results and stored in `.vscode/guardian-suppressions.json`
+
+**View and Manage Suppressions**:
+```bash
+# Via Command Palette
+Ctrl+Shift+P → "Guardian: View Suppressed Findings"
+```
+- See all suppressed findings with reasons
+- Option to view the file at the suppression location
+- Option to unsuppress findings that should be checked again
+
+**Suppression Storage**:
+- Stored in `.vscode/guardian-suppressions.json` (per-workspace)
+- Can be shared via version control or ignored as preferred
+- Includes metadata: file path, line number, pattern, reason, timestamp
 
 ## 🎨 Custom Patterns
 

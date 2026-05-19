@@ -259,7 +259,7 @@ FEATURE_FLAGS=beta,experimental
 
 1. **Clone repository**
    ```bash
-   git clone https://github.com/Maneesh-Relanto/VSCE-Guardian-Secrets-Scanner.git
+   git clone https://github.com/maneesh-kumar-thakur/VSCE-Guardian-Secrets-Scanner.git
    cd Guardian-Secrets-Scanner
    ```
 

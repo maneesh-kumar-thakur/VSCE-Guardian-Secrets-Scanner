@@ -283,9 +283,9 @@ MIT License - See LICENSE file for details
 ## Support
 
 - **Documentation**: See [USAGE.md](USAGE.md) and [docs/](docs/) folder
-- **Issues**: Report bugs on [GitHub Issues](https://github.com/Maneesh-Relanto/VSCE-Guardian-Secrets-Scanner/issues)
+- **Issues**: Report bugs on [GitHub Issues](https://github.com/maneesh-kumar-thakur/VSCE-Guardian-Secrets-Scanner/issues)
 - **Security Vulnerabilities**: Email security@example.com (do not open public issues)
-- **Questions**: Use [GitHub Discussions](https://github.com/Maneesh-Relanto/VSCE-Guardian-Secrets-Scanner/discussions)
+- **Questions**: Use [GitHub Discussions](https://github.com/maneesh-kumar-thakur/VSCE-Guardian-Secrets-Scanner/discussions)
 
 ---
 

@@ -88,11 +88,11 @@ Guardian Secrets Scanner is officially released on the VS Code Marketplace. This
 
 ## Documentation
 
-- 📖 **[README](https://github.com/Maneesh-Relanto/VSCE-Guardian-Secrets-Scanner#readme)** - Full user guide
-- 🔒 **[Security Policy](https://github.com/Maneesh-Relanto/VSCE-Guardian-Secrets-Scanner/blob/main/SECURITY.md)** - Security considerations
-- 📝 **[Usage Guide](https://github.com/Maneesh-Relanto/VSCE-Guardian-Secrets-Scanner/blob/main/USAGE.md)** - Detailed features
-- 🧪 **[Testing Guide](https://github.com/Maneesh-Relanto/VSCE-Guardian-Secrets-Scanner/blob/main/TESTING.md)** - Test procedures
-- ⚙️ **[Build Guide](https://github.com/Maneesh-Relanto/VSCE-Guardian-Secrets-Scanner/blob/main/BUILD.md)** - Development setup
+- 📖 **[README](https://github.com/maneesh-kumar-thakur/VSCE-Guardian-Secrets-Scanner#readme)** - Full user guide
+- 🔒 **[Security Policy](https://github.com/maneesh-kumar-thakur/VSCE-Guardian-Secrets-Scanner/blob/main/SECURITY.md)** - Security considerations
+- 📝 **[Usage Guide](https://github.com/maneesh-kumar-thakur/VSCE-Guardian-Secrets-Scanner/blob/main/USAGE.md)** - Detailed features
+- 🧪 **[Testing Guide](https://github.com/maneesh-kumar-thakur/VSCE-Guardian-Secrets-Scanner/blob/main/TESTING.md)** - Test procedures
+- ⚙️ **[Build Guide](https://github.com/maneesh-kumar-thakur/VSCE-Guardian-Secrets-Scanner/blob/main/BUILD.md)** - Development setup
 
 ## Technical Details
 
@@ -129,9 +129,9 @@ Guardian Secrets Scanner is officially released on the VS Code Marketplace. This
 
 ## Support & Feedback
 
-- 📧 Report issues on [GitHub Issues](https://github.com/Maneesh-Relanto/VSCE-Guardian-Secrets-Scanner/issues)
-- 💬 Suggest features on [GitHub Discussions](https://github.com/Maneesh-Relanto/VSCE-Guardian-Secrets-Scanner/discussions)
-- ⭐ Star on [GitHub](https://github.com/Maneesh-Relanto/VSCE-Guardian-Secrets-Scanner) to show support
+- 📧 Report issues on [GitHub Issues](https://github.com/maneesh-kumar-thakur/VSCE-Guardian-Secrets-Scanner/issues)
+- 💬 Suggest features on [GitHub Discussions](https://github.com/maneesh-kumar-thakur/VSCE-Guardian-Secrets-Scanner/discussions)
+- ⭐ Star on [GitHub](https://github.com/maneesh-kumar-thakur/VSCE-Guardian-Secrets-Scanner) to show support
 
 ## License
 

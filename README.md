@@ -70,7 +70,7 @@ We take our responsibility seriously:
 
 ### From Source
 ```bash
-git clone https://github.com/Maneesh-Relanto/VSCE-Guardian-Secrets-Scanner.git
+git clone https://github.com/maneesh-kumar-thakur/VSCE-Guardian-Secrets-Scanner.git
 cd VSCE-Guardian-Secrets-Scanner
 npm install
 npm run compile
@@ -526,16 +526,16 @@ While Guardian is comprehensive, no automated tool catches 100% of secrets. Alwa
   - [Suppression Guide](docs/SUPPRESSION_AUDIT_GUIDE.md) - Audit logging and suppressions
   - [Changelog](docs/CHANGELOG.md) - Version history and updates
 
-- **Report Bugs**: [GitHub Issues](https://github.com/Maneesh-Relanto/VSCE-Guardian-Secrets-Scanner/issues)
+- **Report Bugs**: [GitHub Issues](https://github.com/maneesh-kumar-thakur/VSCE-Guardian-Secrets-Scanner/issues)
   - Include Guardian version, VS Code version, file type
   - Provide minimal reproduction steps
   - Do NOT include actual secrets in bug reports
 
-- **Feature Requests**: [GitHub Issues](https://github.com/Maneesh-Relanto/VSCE-Guardian-Secrets-Scanner/issues) with `enhancement` label
+- **Feature Requests**: [GitHub Issues](https://github.com/maneesh-kumar-thakur/VSCE-Guardian-Secrets-Scanner/issues) with `enhancement` label
   - Describe the use case
   - Explain how it improves security
 
-- **Questions & Discussions**: [GitHub Discussions](https://github.com/Maneesh-Relanto/VSCE-Guardian-Secrets-Scanner/discussions)
+- **Questions & Discussions**: [GitHub Discussions](https://github.com/maneesh-kumar-thakur/VSCE-Guardian-Secrets-Scanner/discussions)
   - Ask questions about usage
   - Share tips and best practices
 
@@ -547,7 +547,7 @@ While Guardian is comprehensive, no automated tool catches 100% of secrets. Alwa
 2. Email security details to: [maneeshkumar.thakur@outlook.com](mailto:maneeshkumar.thakur@outlook.com)
 3. Include description, reproduction steps, and potential impact
 4. Allow 48 hours for acknowledgment
-5. **Alternative**: Use [GitHub Security Advisory](https://github.com/Maneesh-Relanto/VSCE-Guardian-Secrets-Scanner/security)
+5. **Alternative**: Use [GitHub Security Advisory](https://github.com/maneesh-kumar-thakur/VSCE-Guardian-Secrets-Scanner/security)
 
 ### Quick Troubleshooting
 

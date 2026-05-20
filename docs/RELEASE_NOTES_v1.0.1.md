@@ -264,8 +264,8 @@ The repository is now **better organized**:
 ## Support
 
 - 📖 **Documentation**: See [docs/](docs/) folder for all guides
-- 🐛 **Bug Reports**: [GitHub Issues](https://github.com/Maneesh-Relanto/VSCE-Guardian-Secrets-Scanner/issues)
-- 💬 **Discussions**: [GitHub Discussions](https://github.com/Maneesh-Relanto/VSCE-Guardian-Secrets-Scanner/discussions)
+- 🐛 **Bug Reports**: [GitHub Issues](https://github.com/maneesh-kumar-thakur/VSCE-Guardian-Secrets-Scanner/issues)
+- 💬 **Discussions**: [GitHub Discussions](https://github.com/maneesh-kumar-thakur/VSCE-Guardian-Secrets-Scanner/discussions)
 - 🔒 **Security**: Email security@example.com
 
 ---
